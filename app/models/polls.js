@@ -10,13 +10,7 @@ var Poll = new Schema({
         createDate: String,
         createdBy: String
     },
-    options: Object,
-	github: {
-		id: String,
-		displayName: String,
-		username: String,
-      publicRepos: Number
-	}
+    options: Array
 });
 
 module.exports = mongoose.model('Poll', Poll);
