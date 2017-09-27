@@ -202,3 +202,7 @@ span {
 	display: inline;
 	margin: 0;
 }
+
+[ng-cloak]{
+	display: none !important;
+}
