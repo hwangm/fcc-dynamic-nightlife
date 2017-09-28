@@ -26,5 +26,15 @@
                $scope.getClicks();
             });
          };
+      }])
+      .controller('indexVotingController', ['$scope', '$resource', function ($scope, $resource){
+         var Poll = $resource('/api/allPolls');
+         
+         $scope.getPolls = function() {
+            Poll.query(function (results) {
+               $scope.polls = results;
+            });
+         };
+         $scope.getPolls();
       }]);
 })();

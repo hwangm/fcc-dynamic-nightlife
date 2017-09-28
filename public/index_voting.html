@@ -17,6 +17,17 @@
       <h1>Welcome to the Hwang Voting Center. </h1>
       <h3>Check out our list of polls below. </h3>
     </div>
+    <div class="container" ng-controller="indexVotingController">
+      <div class="card" ng-repeat="x in polls">
+        <div class="row">
+          <div class="col-md-3">Poll Name: {x.metadata.name}}</div>
+          <div class="col-md-3">Poll Description: {{x.metadata.description}}</div>
+          <div class="col-md-3">Created on: {{x.metadata.createDate}}</div>
+          <div class="col-md-3">Create User ID: {{x.metadata.createdBy}}</div>
+        </div>
+      </div>
+     
+    </div>
     <div class="container" ng-controller="clickController">
       <p>You have clicked the button <span ng-cloak>{{clicks}}</span> times.</p><br>
       <div class="btn-container">
