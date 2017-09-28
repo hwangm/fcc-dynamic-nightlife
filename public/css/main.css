@@ -203,6 +203,10 @@ span {
 	margin: 0;
 }
 
+.poll-container{
+	width: 50%;
+}
+
 [ng-cloak]{
 	display: none !important;
 }

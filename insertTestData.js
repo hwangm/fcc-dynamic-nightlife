@@ -29,7 +29,7 @@ Poll.remove({ "metadata.createDate": "September 27, 2017" }, function(err) {
 	        name: "Test poll 1",
 	        description: "Test poll data 1",
 	        createDate: "September 27, 2017",
-	        createdBy: "6981993"
+	        createdBy: "2944103525"
 	    },
 	    options: [
 	    	"hello",
@@ -43,7 +43,7 @@ Poll.remove({ "metadata.createDate": "September 27, 2017" }, function(err) {
 	        name: "Test poll 2",
 	        description: "Test poll data 2",
 	        createDate: "September 27, 2017",
-	        createdBy: "6981993"
+	        createdBy: "2944103525"
 	    },
 	    options: [
 	    	"hello",
@@ -58,7 +58,7 @@ Poll.remove({ "metadata.createDate": "September 27, 2017" }, function(err) {
 	        name: "Test poll 3",
 	        description: "Test poll data 3",
 	        createDate: "September 27, 2017",
-	        createdBy: "6981993"
+	        createdBy: "2944103525"
 	    },
 	    options: [
 	    	"hello",
@@ -74,7 +74,7 @@ Poll.remove({ "metadata.createDate": "September 27, 2017" }, function(err) {
 	        name: "Test poll 4",
 	        description: "Test poll data 4",
 	        createDate: "September 27, 2017",
-	        createdBy: "6981993"
+	        createdBy: "2944103525"
 	    },
 	    options: [
 	    	"hello",
