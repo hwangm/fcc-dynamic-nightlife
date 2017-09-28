@@ -8,11 +8,16 @@
   <body>
     <div class="container">
       <div class="github-profile"><img src="/public/img/gh-mark-32px.png" alt="github logo">
-        <p><span>ID: </span><span class="profile-value" id="profile-id"></span></p>
-        <p><span>Username: </span><span class="profile-value" id="profile-username"></span></p>
-        <p><span>Display Name: </span><span class="profile-value" id="display-name"></span></p>
-        <p><span>Repositories: </span><span class="profile-value" id="profile-repos"></span></p><a class="menu" href="/">Home</a>
+        <p><span>Github ID: </span><span class="profile-value" id="github-id"></span></p>
+        <p><span>Github Username: </span><span class="profile-value" id="github-username"></span></p>
+        <p><span>Github Display Name: </span><span class="profile-value" id="github-name"></span></p>
+        <p><span>Github Repositories: </span><span class="profile-value" id="github-repos"></span></p><a class="menu" href="/">Home</a>
         <p id="menu-divide">|</p><a class="menu" href="/logout">Logout</a>
+      </div>
+      <div class="github-profile">
+        <p><span>Twitter ID: </span><span class="profile-value" id="twitter-id"></span></p>
+        <p><span>Twitter Username: </span><span class="profile-value" id="twitter-username"></span></p>
+        <p><span>Twitter Display Name: </span><span class="profile-value" id="twitter-name"></span></p><a class="menu" href="/">Home</a>
       </div>
     </div>
     <div class="container" ng-controller="profileController">

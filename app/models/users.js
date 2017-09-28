@@ -10,9 +10,14 @@ var User = new Schema({
 		username: String,
       publicRepos: Number
 	},
-   nbrClicks: {
-      clicks: Number
-   }
+	twitter: {
+	    id: String,
+	    displayName: String,
+	    username: String
+	},
+    nbrClicks: {
+        clicks: Number
+    }
 });
 
 module.exports = mongoose.model('User', User);
