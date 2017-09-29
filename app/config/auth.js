@@ -10,5 +10,10 @@ module.exports = {
 		'consumerKey': process.env.TWITTER_KEY,
 		'consumerSecret': process.env.TWITTER_SECRET,
 		'callbackURL': process.env.APP_URL + 'auth/twitter/callback'
+	},
+	'googleAuth': {
+		'consumerKey': process.env.GOOGLE_KEY,
+		'consumerSecret': process.env.GOOGLE_SECRET,
+		'callbackURL': process.env.APP_URL + 'auth/google/callback'
 	}
 };

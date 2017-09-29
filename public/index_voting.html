@@ -1,32 +1,67 @@
 <!DOCTYPE html>
 <html ng-app="clementine-app">
   <head>
-    <title>Clementine.js - The elegant and lightweight full stack JavaScript boilerplate.</title>
+    <title>Matt Hwang FCC Voting App</title>
     <link href="/public/css/main.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/6ad6929304.js"></script>
   </head>
   <header>
-    <nav class="navbar navbar-light bg-light">
-      <span class="h3" class="navbar-brand mb-0">HWANGSTA'S POLLSTA'S</span>
-      <p>Welcome, <span id="display-name"></span>!</p><a class="menu" href="/profile">Profile</a>
-      <a class="menu" href="/logout">Logout</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="navbar-brand mb-0">HWANGSTA'S POLLSTA'S</div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="nav navbar-nav float-right">
+          <li class="nav-item navbar-text">
+            <div>
+              Welcome, <span id="display-name"></span>!
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/profile">Profile</a>            
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" title="Log in with your Google Account" href="/auth/google">
+              <i class="fa fa-google" aria-hidden="true"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>                 
+          </li>
+        </ul>
+
+      </div>
+
     </nav>
   </header>
   <body>
     <div class="container">
-      <h1>Welcome to the Hwang Voting Center. </h1>
-      <h3>Check out our list of polls below. </h3>
+      <h1 class="text-center">Welcome to the Hwang Voting Center. </h1>
+      <h3 class="text-center">Check out our list of polls below. </h3>
     </div>
     <div class="container" ng-controller="indexVotingController">
-      <div class="card" ng-repeat="x in polls">
-        <div class="row">
-          <div class="col-md-3">Poll Name: {{x.metadata.name}}</div>
-          <div class="col-md-3">Poll Description: {{x.metadata.description}}</div>
-          <div class="col-md-3">Created on: {{x.metadata.createDate}}</div>
-          <div class="col-md-3">Create User ID: {{x.metadata.createdBy}}</div>
+      <div class="poll-container w-75 mx-auto">
+        <div class="card my-2" ng-repeat="x in polls">
+          <div class="row" >
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>{{x.metadata.name}}</h4>
+                  <div>{{x.metadata.description}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">{{x.metadata.createDate}}</div>
+            <div class="col-md-6 button-group">
+              <button type="button" class="btn btn-info">View</button>
+              <button type="button" class="btn btn-info" ng-show="isAuthenticated">Edit</button>
+              <button type="button" class="btn btn-danger" ng-show="isAuthenticated">Delete</button>
+            </div>
+          </div>
         </div>
       </div>
-     
     </div>
     <div class="container" ng-controller="clickController">
       <p>You have clicked the button <span ng-cloak>{{clicks}}</span> times.</p><br>

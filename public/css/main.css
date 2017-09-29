@@ -41,9 +41,6 @@ p {
 
 /****** Header Styling ******/
 
-header p {
-	margin: 16px 0 5px 0;
-}
 
 .menu {
 	text-decoration: none;
@@ -201,10 +198,6 @@ span {
 	color: #FFFFFF;
 	display: inline;
 	margin: 0;
-}
-
-.poll-container{
-	width: 50%;
 }
 
 [ng-cloak]{

@@ -18,7 +18,7 @@ module.exports = function (app, passport) {
 	var pollHandler = new PollHandler();
 
 	app.route('/')
-		.get(isLoggedIn, function (req, res) {
+		.get(function (req, res) {
 			res.sendFile(path + '/public/index_voting.html');
 		});
 
@@ -59,6 +59,15 @@ module.exports = function (app, passport) {
 		.get(passport.authenticate('twitter'));
 	app.route('/auth/twitter/callback')
 		.get(passport.authenticate('twitter', {
+			successRedirect: '/',
+			failureRedirect: '/login'
+		}));
+		
+	//add google auth option
+	app.route('/auth/google')
+		.get(passport.authenticate('google', { scope: 'openid profile' }));
+	app.route('/auth/google/callback')
+		.get(passport.authenticate('google', {
 			successRedirect: '/',
 			failureRedirect: '/login'
 		}));

@@ -35,6 +35,9 @@
                $scope.polls = results;
             });
          };
+         
          $scope.getPolls();
+         
+         $scope.isAuthenticated = true;
       }]);
 })();

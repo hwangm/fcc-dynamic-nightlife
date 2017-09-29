@@ -2,6 +2,7 @@
 
 var GitHubStrategy = require('passport-github').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var User = require('../models/users');
 var configAuth = require('./auth');
 
@@ -34,6 +35,37 @@ module.exports = function (passport) {
 					newUser.twitter.id = profile.id;
 					newUser.twitter.username = profile.username;
 					newUser.twitter.displayName = profile.displayName;
+					newUser.nbrClicks.clicks = 0;
+
+					newUser.save(function (err) {
+						if (err) {
+							throw err;
+						}
+
+						return cb(null, newUser);
+					});
+			}
+		});
+	}));
+	
+	passport.use(new GoogleStrategy({
+		clientID: configAuth.googleAuth.consumerKey,
+		clientSecret: configAuth.googleAuth.consumerSecret,
+		callbackURL: configAuth.googleAuth.callbackURL
+	}, function(token, tokenSecret, profile, cb) {
+		User.findOne({ 'google.id' : profile.id}, function (err, user) {
+			if (err) {
+				return cb(err);
+			}
+			if (user) {
+				return cb(null, user);
+			}
+			else{
+				var newUser = new User();
+
+					newUser.google.id = profile.id;
+					newUser.google.username = profile.username;
+					newUser.google.displayName = profile.displayName;
 					newUser.nbrClicks.clicks = 0;
 
 					newUser.save(function (err) {
