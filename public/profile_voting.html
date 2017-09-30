@@ -27,9 +27,12 @@
             </div>
             <div class="col-md-2">{{x.metadata.createDate}}</div>
             <div class="col-md-6 button-group">
-              <button type="button" class="btn btn-info ">View</button>
-              <button type="button" class="btn btn-info ">Edit</button>
-              <button type="button" class="btn btn-danger ">Delete</button>
+              <button type="button" data-poll-id="{{x.pollID}}" class="btn btn-info" ng-click="viewPoll(x.pollID)">View</button>
+              <button type="button" data-poll-id="{{x.pollID}}" class="btn btn-info" ng-click="editPoll(x.pollID)">Edit</button>
+              <button type="button" data-poll-id="{{x.pollID}}" class="btn btn-danger" ng-click="deletePoll(x.pollID)">Delete</button>
+            </div>
+            <div class="col-md-12">
+              You want to {{ poll.action }} poll number {{ poll.actionID }}?
             </div>
           </div>
         </div>

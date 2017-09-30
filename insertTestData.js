@@ -25,6 +25,7 @@ mongoose.Promise = global.Promise;
 Poll.remove({ "metadata.createDate": "September 27, 2017" }, function(err) {
 	if(err) throw err;
 	var poll1 = new Poll({
+		pollID: 1,
 		metadata: {
 	        name: "Test poll 1",
 	        description: "Test poll data 1",
@@ -39,6 +40,7 @@ Poll.remove({ "metadata.createDate": "September 27, 2017" }, function(err) {
 	});
 	
 	var poll2 = new Poll({
+		pollID: 2,
 		metadata: {
 	        name: "Test poll 2",
 	        description: "Test poll data 2",
@@ -54,6 +56,7 @@ Poll.remove({ "metadata.createDate": "September 27, 2017" }, function(err) {
 	});
 	
 	var poll3 = new Poll({
+		pollID: 3,
 		metadata: {
 	        name: "Test poll 3",
 	        description: "Test poll data 3",
@@ -70,6 +73,7 @@ Poll.remove({ "metadata.createDate": "September 27, 2017" }, function(err) {
 	});
 	
 	var poll4 = new Poll({
+		pollID: 4,
 		metadata: {
 	        name: "Test poll 4",
 	        description: "Test poll data 4",
