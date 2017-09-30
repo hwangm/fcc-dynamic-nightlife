@@ -44,6 +44,14 @@ module.exports = function (app, passport) {
 	app.route('/api/allPolls')
 		.get(pollHandler.getAllPolls);
 		
+	app.route('/api/isAuth')
+		.get((req, res) => {
+			if(req.user !== undefined) {
+				res.json({ isAuthenticated: true });
+			}
+			else res.json({ isAuthenticated: false });
+		})
+		
 	app.route('/api/clicks')
 		.get(isLoggedIn, clickHandler.getClicks)
 		.post(isLoggedIn, clickHandler.addClick)

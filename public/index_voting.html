@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <script src="https://use.fontawesome.com/6ad6929304.js"></script>
   </head>
-  <header>
+  <header ng-controller="headerController">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="navbar-brand mb-0">HWANGSTA'S POLLSTA'S</div>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,20 +14,20 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="nav navbar-nav float-right">
-          <li class="nav-item navbar-text">
+          <li class="nav-item navbar-text" ng-show="isAuthenticated">
             <div>
               Welcome, <span id="display-name"></span>!
             </div>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" ng-show="isAuthenticated">
             <a class="nav-link" href="/profile">Profile</a>            
           </li>
-          <li class="nav-item">
+          <li class="nav-item" ng-hide="isAuthenticated">
             <a class="nav-link" title="Log in with your Google Account" href="/auth/google">
               <i class="fa fa-google" aria-hidden="true"></i>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" ng-show="isAuthenticated">
             <a class="nav-link" href="/logout">Logout</a>                 
           </li>
         </ul>
@@ -54,20 +54,37 @@
               </div>
             </div>
             <div class="col-md-2">{{x.metadata.createDate}}</div>
-            <div class="col-md-6 button-group">
-              <button type="button" class="btn btn-info">View</button>
-              <button type="button" class="btn btn-info" ng-show="isAuthenticated">Edit</button>
-              <button type="button" class="btn btn-danger" ng-show="isAuthenticated">Delete</button>
+            <div class="col-md-6">
+              <button type="button" class="btn btn-info my-auto">View</button>
+              <button type="button" class="btn btn-info my-auto" ng-show="isAuthenticated">Edit</button>
+              <button type="button" class="btn btn-danger my-auto" ng-show="isAuthenticated">Delete</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="container" ng-controller="clickController">
-      <p>You have clicked the button <span ng-cloak>{{clicks}}</span> times.</p><br>
-      <div class="btn-container">
-        <button class="btn btn-add" type="submit" ng-click="addClick()">CLICK ME!</button>
-        <button class="btn btn-delete" ng-click="resetClicks()">RESET</button>
+    <div class="container" ng-controller="newPollController">
+      <form>
+        <h3>Create a new Poll!</h3>
+        <div class="form-group">
+          <label for="pollName">Poll Name</label>
+          <input type="text" name="pollName" id="pollName" placeholder="Poll Name Here" ng-model="newPollName" />
+        </div>
+        <div class="form-group">
+          <label for="pollDesc">Poll Description</label>
+          <input type="text" name="pollDesc" id="pollDesc" placeholder="What is this poll for?" ng-model="newPollDesc" />
+        </div>
+        <div class="form-group">
+          <div ng-repeat="x in options">
+            <label for="{{ 'option' + x }}" >Option {{x}}</label>
+            <input type="text" name="{{'option' + x}}" id="{{'option' + x}}" placeholder="Poll option" ng-model="hello" />
+          </div>
+
+        </div>
+        <button type="submit" ng-click="addNewPoll()">Submit Poll</button>
+      </form>
+      <div id="pollResult" ng-show="newPollSubmitted">
+        You want to create a poll named {{ newPollName }} for {{ newPollDesc }}? Really? With options like {{option}}?
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
@@ -76,7 +93,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-resource.min.js"></script>
     <script type="text/javascript" src="common/ajax-functions.js"></script>
-    <script type="text/javascript" src="controllers/clickController.client.js"></script>
+    <script type="text/javascript" src="controllers/indexController.client.js"></script>
     <script type="text/javascript" src="controllers/userController.client.js"></script>
   </body>
 </html>

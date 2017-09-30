@@ -13,5 +13,19 @@
          }
          
          $scope.getPolls();
+      }])
+      .controller('googleInfoController', ['$scope', '$resource', ($scope, $resource) => {
+         var user = $resource('/api/11111');
+         
+         $scope.getUser = function() {
+            user.get((results) => {
+               console.log(results);
+               var data = results;
+               $scope.googleID = data.google.id;
+               $scope.googleDisplayName = data.google.displayName;
+            });
+         };
+         
+         $scope.getUser();
       }]);
 })();

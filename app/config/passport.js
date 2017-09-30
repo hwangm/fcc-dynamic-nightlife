@@ -53,7 +53,7 @@ module.exports = function (passport) {
 		clientSecret: configAuth.googleAuth.consumerSecret,
 		callbackURL: configAuth.googleAuth.callbackURL
 	}, function(token, tokenSecret, profile, cb) {
-		User.findOne({ 'google.id' : profile.id}, function (err, user) {
+		User.findOne({ 'google.id' : profile.id }, function (err, user) {
 			if (err) {
 				return cb(err);
 			}
@@ -64,7 +64,7 @@ module.exports = function (passport) {
 				var newUser = new User();
 
 					newUser.google.id = profile.id;
-					newUser.google.username = profile.username;
+					newUser.google.name = profile.name;
 					newUser.google.displayName = profile.displayName;
 					newUser.nbrClicks.clicks = 0;
 

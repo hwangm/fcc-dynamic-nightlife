@@ -18,7 +18,7 @@ var User = new Schema({
 	google: {
 		id: String,
 		displayName: String,
-		username: String
+		name: Object
 	},
     nbrClicks: {
         clicks: Number

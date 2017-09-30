@@ -6,11 +6,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
   </head>
   <body>
-    <div class="container">
+    <div class="container" ng-controller="googleInfoController">
       <div class="github-profile">
-        <p><span>Twitter ID: </span><span class="profile-value" id="twitter-id"></span></p>
-        <p><span>Twitter Username: </span><span class="profile-value" id="twitter-username"></span></p>
-        <p><span>Twitter Display Name: </span><span class="profile-value" id="twitter-name"></span></p><a class="menu" href="/">Home</a>
+        <p><span>Google ID: </span><span class="profile-value" ng-cloak id="google-id">{{ googleID }}</span></p>
+        <p><span>Google Display Name: </span><span class="profile-value" ng-cloak id="google-name">{{ googleDisplayName }}</span></p><a class="menu" href="/">Home</a>
       </div>
     </div>
     <div class="container" ng-controller="profileController">
@@ -42,7 +41,6 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-resource.min.js"></script>
     <script type="text/javascript" src="common/ajax-functions.js"></script>
-    <script type="text/javascript" src="controllers/clickController.client.js"></script>
     <script type="text/javascript" src="controllers/userController.client.js"></script>
     <script type="text/javascript" src="controllers/profileController.client.js"></script>
   </body>

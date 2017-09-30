@@ -2,9 +2,9 @@
 
 (function () {
 
-   var profileIdT = document.querySelector('#twitter-id') || null;
-   var profileUsernameT = document.querySelector('#twitter-username') || null;
-   var displayNameT = document.querySelector('#twitter-name'); 
+   var profileId = document.querySelector('#google-id') || null;
+   var profileUsername = document.querySelector('#google-username') || null;
+   var googleName = document.querySelector('#google-name'); 
    var displayName = document.querySelector('#display-name');
    var apiUrl = appUrl + '/api/:id';
 
