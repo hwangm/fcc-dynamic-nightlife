@@ -79,6 +79,7 @@
           <div ng-repeat="x in options">
             <label for="{{ 'option' + x }}" >Option {{x}}</label>
             <input type="text" name="{{'option' + x}}" id="{{'option' + x}}" placeholder="Poll option" ng-model="hello" ng-change="updateOptions(x)"/>
+            <!-- ng-click="removeOption(x)" remove option -->
           </div>
 
         </div>

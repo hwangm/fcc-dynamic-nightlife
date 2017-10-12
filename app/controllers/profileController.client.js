@@ -36,6 +36,9 @@
             };
             $scope['poll'+pollID+'ActionTaken'] = true;
             document.getElementById('pollResults'+pollID).innerHTML = 'Deleting poll '+pollID;
+            $resource('/api/polls/'+pollID).delete((res) => {
+               $('#pollContainer'+pollID).remove();
+            });
          };
          
          

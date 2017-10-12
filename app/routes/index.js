@@ -42,7 +42,8 @@ module.exports = function (app, passport) {
 		.get(isLoggedIn, pollHandler.getPolls);
 		
 	app.route('/api/polls/:id')
-		.post(pollHandler.addPoll);
+		.post(pollHandler.addPoll)
+		.delete(isLoggedIn, pollHandler.removePoll);
 		
 	app.route('/api/allPolls')
 		.get(pollHandler.getAllPolls);

@@ -26,12 +26,12 @@ function PollHandler () {
 
 	};
 	
-	this.removePoll = function (req, res) {
+	this.removePoll = function (req, response) {
 		Polls
-			.remove({ pollID: req.params.id })
-			.exec((err, res) => {
-				if(err) throw err;
-				res.json(res);
+			.remove({ 'pollID': req.params.id })
+			.exec((err, data) => {
+				if(err) { response.json(err); }
+				response.json(data);
 			});
 	};
 	
