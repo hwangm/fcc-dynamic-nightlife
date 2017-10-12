@@ -21,6 +21,23 @@ function PollHandler () {
 				res.json(result);
 			});
 	};
+	
+	this.addPoll = function (req, res) {
+
+	};
+	
+	this.removePoll = function (req, res) {
+		Polls
+			.remove({ pollID: req.params.id })
+			.exec((err, res) => {
+				if(err) throw err;
+				res.json(res);
+			});
+	};
+	
+	this.editPoll = function (req, res) {
+		
+	};
 
 }
 

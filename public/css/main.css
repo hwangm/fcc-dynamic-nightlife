@@ -148,6 +148,10 @@ img {
 	font-weight: 400;
 }
 
+.btn-create {
+	white-space: normal !important;
+}
+
 /****** Profile Styling ******/
 
 .github-profile {

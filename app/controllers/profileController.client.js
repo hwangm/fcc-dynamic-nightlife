@@ -18,7 +18,7 @@
                action: 'view',
                actionID: pollID
             };
-            console.log($scope.poll);
+            document.getElementById('pollResults'+pollID).innerHTML = 'Viewing poll '+pollID;
          };
          
          $scope.editPoll = function(pollID) {
@@ -26,6 +26,7 @@
                action: 'edit',
                actionID: pollID
             };
+            document.getElementById('pollResults'+pollID).innerHTML = 'Editing poll '+pollID;
          };
          
          $scope.deletePoll = function(pollID) {
@@ -33,6 +34,8 @@
                action: 'delete',
                actionID: pollID
             };
+            $scope['poll'+pollID+'ActionTaken'] = true;
+            document.getElementById('pollResults'+pollID).innerHTML = 'Deleting poll '+pollID;
          };
          
          

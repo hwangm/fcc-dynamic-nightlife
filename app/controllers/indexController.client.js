@@ -55,6 +55,8 @@
          
          var Poll = $resource('/api/addNewPoll');
          
+         $scope.createNewPoll = false;
+         
          $scope.option=[];
          $scope.options = [1, 2, 3];
          
@@ -62,6 +64,18 @@
          
          $scope.addNewPoll = () => {
             $scope.newPollSubmitted = true;
+         };
+         
+         $scope.showForm = () => {
+           $scope.createNewPoll = true; 
+         };
+         
+         $scope.updateOptions = (x) => {
+           $scope.option[x-1] = document.getElementById("option"+x).value; 
+         };
+         
+         $scope.addOption = () => {
+           $scope.options.push($scope.options.length+1); 
          };
          
       }]);
