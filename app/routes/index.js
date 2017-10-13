@@ -48,6 +48,9 @@ module.exports = function (app, passport) {
 	app.route('/api/allPolls')
 		.get(pollHandler.getAllPolls);
 		
+	app.route('/api/addNewPoll')
+		.post(pollHandler.addPoll);
+		
 	app.route('/api/isAuth')
 		.get((req, res) => {
 			if(req.user !== undefined) {

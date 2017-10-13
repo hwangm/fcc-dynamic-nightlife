@@ -23,7 +23,30 @@ function PollHandler () {
 	};
 	
 	this.addPoll = function (req, res) {
-
+		Polls
+			.find({ })
+			.sort({pollID: -1})
+			.limit(1)
+			.exec((err, result) => {
+				if(err) res.json(error);
+				console.log(req);
+				var newPollID = 1;
+				if (result.length != 0) newPollID = result.pollID + 1;
+				Polls
+					.create({
+						pollID: newPollID,
+						metadata: {
+							name: req.body.pollName,
+							description: req.body.pollDesc,
+							createDate: new Date().toDateString(),
+							createdBy: req.user.id
+						},
+						options: req.body.options
+					}, (error, saveResult) => {
+						if(error) res.json(error);
+						res.json(saveResult);
+					});
+			});
 	};
 	
 	this.removePoll = function (req, response) {

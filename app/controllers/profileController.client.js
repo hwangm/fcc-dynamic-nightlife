@@ -9,6 +9,10 @@
          $scope.getPolls = function() {
             polls.query(function(results) {
                $scope.polls = results;
+               if($scope.polls.length == 0){
+                  $scope.noPolls = true;
+               }
+               else $scope.noPolls = false;
             });
          }
          
@@ -38,10 +42,10 @@
             document.getElementById('pollResults'+pollID).innerHTML = 'Deleting poll '+pollID;
             $resource('/api/polls/'+pollID).delete((res) => {
                $('#pollContainer'+pollID).remove();
+               $scope.getPolls();
             });
          };
-         
-         
+       
          $scope.getPolls();
       }])
       .controller('googleInfoController', ['$scope', '$resource', ($scope, $resource) => {
