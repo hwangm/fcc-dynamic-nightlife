@@ -43,6 +43,7 @@ module.exports = function (app, passport) {
 		
 	app.route('/api/polls/:id')
 		.post(pollHandler.addPoll)
+		.put(pollHandler.updatePoll)
 		.delete(isLoggedIn, pollHandler.removePoll);
 		
 	app.route('/api/allPolls')

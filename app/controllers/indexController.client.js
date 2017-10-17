@@ -67,19 +67,45 @@
             }
             var ctx = document.getElementById('pollChart'+id).getContext('2d');
             var chart = new Chart(ctx, {
-                // The type of chart we want to create
-                type: 'pie',
-            
-                // The data for our dataset
-                data: {
-                    labels: pollLabels,
-                    datasets: [{
-                        data: pollDataPoints,
-                        backgroundColor: backgroundColors
-                    }]
-                }
+               // The type of chart we want to create
+               type: 'pie',
+         
+               // The data for our dataset
+               data: {
+                  labels: pollLabels,
+                  datasets: [{
+                     data: pollDataPoints,
+                     backgroundColor: backgroundColors
+                  }]
+               },
+               options: {
+                  responsive: false, 
+                  maintainAspectRatio: false
+               }
             });
          }
+         
+         $scope.submitOption = (pollID) => {
+            var pollData = _.find($scope.polls, (el) => { return el.pollID == pollID }); //find the poll data matching poll ID
+            var optionName = $('input[name="options'+pollID+'"]').val();
+            console.log(optionName);
+            var optionData = _.each(pollData.options, (el, ind, list) => { console.log(el); if(el.name == optionName) {  el.count++; } });
+            console.log(optionData);
+            pollData.options = optionData;
+            
+            //update the poll options with the incremented count in database
+            //use HTTP PUT 
+            var poll = $resource('/api/polls/'+pollID, {}, {
+               update: {
+                  method: 'PUT'
+               }
+            });
+            poll.update({}, {'newDoc': pollData}, (results) => {
+               console.log(results);
+               $scope.getPolls();
+               $scope.initChart(pollID);
+            });
+         };
          
          $scope.getPolls();
          

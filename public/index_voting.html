@@ -65,13 +65,17 @@
           </div>
           <div class="row" ng-show="{{'showDetails'+x.pollID}}">
             <div class="col-md-4">
-              <div class="option-header">Options</div>
+              <div class="option-header">Vote for an option: </div>
               <div class="option-choice" ng-repeat="y in x.options">
                 <input type="radio" id="{{'poll_'+x.pollID+'_optionName_'+y.name}}" name="{{'options'+x.pollID}}" value="{{y.name}}">{{y.name}}</input>
               </div>
+              <div class="option-submit-button">
+                <button type="button" id="{{'chooseOption_'+x.pollID}}" class="btn btn-info" ng-click="submitOption(x.pollID)">Submit</button>
+                <div class="option-submit-results" ng-show="userSubmittedOption"></div>
+              </div>
             </div>
             <div class="col-md-8">
-              <canvas id="{{'pollChart'+x.pollID}}" width="400" height="400"></canvas>
+              <canvas id="{{'pollChart'+x.pollID}}" width="300px" height="300px"></canvas>
             </div>
             
           </div>

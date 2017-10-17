@@ -57,6 +57,17 @@ function PollHandler () {
 			});
 	};
 	
+	this.updatePoll = function (req, response) {
+		Polls
+			.replaceOne({ 'pollID': req.params.id }, req.body.newDoc)
+			.exec((err, data) => {
+				if (err) {
+					response.json(err);
+				}
+				response.json(data);
+			});
+	};
+	
 	this.editPoll = function (req, res) {
 		
 	};
