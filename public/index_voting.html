@@ -5,6 +5,8 @@
     <link href="/public/css/main.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <script src="https://use.fontawesome.com/6ad6929304.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   </head>
   <header ng-controller="headerController">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -58,10 +60,20 @@
             </div>
             <div class="col-md-2">{{x.metadata.createDate}}</div>
             <div class="col-md-6">
-              <button type="button" class="btn btn-info my-auto">View</button>
-              <button type="button" class="btn btn-info my-auto" ng-show="isAuthenticated">Edit</button>
-              <button type="button" class="btn btn-danger my-auto" ng-show="isAuthenticated">Delete</button>
+              <button type="button" class="btn btn-info my-auto" ng-click="showPollDetails(x.pollID)">Show/Hide</button>
             </div>
+          </div>
+          <div class="row" ng-show="{{'showDetails'+x.pollID}}">
+            <div class="col-md-4">
+              <div class="option-header">Options</div>
+              <div class="option-choice" ng-repeat="y in x.options">
+                <input type="radio" id="{{'poll_'+x.pollID+'_optionName_'+y.name}}" name="{{'options'+x.pollID}}" value="{{y.name}}">{{y.name}}</input>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <canvas id="{{'pollChart'+x.pollID}}" width="400" height="400"></canvas>
+            </div>
+            
           </div>
         </div>
       </div>

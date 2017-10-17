@@ -29,7 +29,6 @@ function PollHandler () {
 			.limit(1)
 			.exec((err, result) => {
 				if(err) res.json(error);
-				console.log(req);
 				var newPollID = 1;
 				if (result.length != 0) newPollID = result.pollID + 1;
 				Polls

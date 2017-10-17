@@ -33,9 +33,9 @@ Poll.remove({ "metadata.createDate": "September 27, 2017" }, function(err) {
 	        createdBy: "115186002489441654144"
 	    },
 	    options: [
-	    	"hello",
-	    	"goodbye",
-	    	"what's up"
+	    	{ name: "hello", count: 1 },
+	    	{ name: "goodbye", count: 3 },
+	    	{ name: "what's up", count: 5 },
 		]
 	});
 	
@@ -48,11 +48,11 @@ Poll.remove({ "metadata.createDate": "September 27, 2017" }, function(err) {
 	        createdBy: "115186002489441654144"
 	    },
 	    options: [
-	    	"hello",
-	    	"goodbye",
-	    	"what's up",
-	    	"how are you"
-		]
+	    	{ name: "hello", count: 2 },
+	    	{ name: "goodbye", count: 4 },
+	    	{ name: "what's up", count: 6 },
+	    	{ name: "how are you", count: 11 }
+    	]
 	});
 	
 	var poll3 = new Poll({
@@ -64,11 +64,11 @@ Poll.remove({ "metadata.createDate": "September 27, 2017" }, function(err) {
 	        createdBy: "115186002489441654144"
 	    },
 	    options: [
-	    	"hello",
-	    	"goodbye",
-	    	"what's up",
-	    	"how are you",
-	    	"no way, hello"
+	    	{ name: "hello", count: 0 },
+	    	{ name: "goodbye", count: 1 },
+	    	{ name: "what's up", count: 2 },
+	    	{ name: "how are you", count: 10 },
+	    	{ name: "no way, hello", count: 20 }
 		]
 	});
 	
@@ -81,12 +81,12 @@ Poll.remove({ "metadata.createDate": "September 27, 2017" }, function(err) {
 	        createdBy: "115186002489441654144"
 	    },
 	    options: [
-	    	"hello",
-	    	"goodbye",
-	    	"what's up",
-	    	"how are you",
-	    	"no way, hello",
-	    	"wow, this is unreal"
+	    	{ name: "hello", count: 10 },
+	    	{ name: "goodbye", count: 12 },
+	    	{ name: "what's up", count: 75 },
+	    	{ name: "how are you", count: 10 },
+	    	{ name: "no way, hello", count: 20 },
+	    	{ name: "wow, this is unreal", count: 99 }
 		]
 	});
 	
