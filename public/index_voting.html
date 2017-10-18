@@ -28,7 +28,9 @@
           <div class="col-md-4">
             <div class="option-header">Vote for an option: </div>
             <div class="option-choice" ng-repeat="y in x.options">
-              <input type="radio" id="{{'poll_'+x.pollID+'_optionName_'+y.name}}" name="{{'options'+x.pollID}}" value="{{y.name}}">{{y.name}}</input>
+              <input type="radio" id="{{'poll_'+x.pollID+'_optionName_'+y.name}}" name="{{'options'+x.pollID}}" value="{{y.name}}">
+                <label for="{{'poll_'+x.pollID+'_optionName_'+y.name}}">{{y.name}}</label>
+              </input>
             </div>
             <div class="option-submit-button">
               <button type="button" id="{{'chooseOption_'+x.pollID}}" class="btn btn-info" ng-click="submitOption(x.pollID)">Submit</button>

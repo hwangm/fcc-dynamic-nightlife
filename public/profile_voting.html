@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-    <div class="container" ng-controller="googleInfoController">
+<div ng-controller="profileController">
+    <div class="container">
       <div class="github-profile">
         <p><span>Google ID: </span><span class="profile-value" ng-cloak id="google-id">{{ googleID }}</span></p>
         <p><span>Google Display Name: </span><span class="profile-value" ng-cloak id="google-name">{{ googleDisplayName }}</span></p><a class="menu" href="/">Home</a>
       </div>
     </div>
-    <div class="container" ng-controller="profileController">
+    <div class="container" >
       <h2>Your polls: </h2>
       <div class="poll-container w-75 mx-auto">
         <div class="card my-2" ng-repeat="x in polls" id="pollContainer{{x.pollID}}">
@@ -34,3 +35,4 @@
         You have no polls! 
       </div>
     </div>
+</div>
