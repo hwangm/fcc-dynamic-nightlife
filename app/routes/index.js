@@ -19,7 +19,7 @@ module.exports = function (app, passport) {
 
 	app.route('/')
 		.get(function (req, res) {
-			res.sendFile(path + '/public/index_voting.html');
+			res.sendFile(path + '/public/layout.html');
 		});
 
 	app.route('/login')
@@ -59,11 +59,6 @@ module.exports = function (app, passport) {
 			}
 			else res.json({ isAuthenticated: false });
 		})
-		
-	app.route('/api/clicks')
-		.get(isLoggedIn, clickHandler.getClicks)
-		.post(isLoggedIn, clickHandler.addClick)
-		.delete(isLoggedIn, clickHandler.resetClicks);
 
 	app.route('/api/:id')
 		.get(isLoggedIn, function (req, res) {
