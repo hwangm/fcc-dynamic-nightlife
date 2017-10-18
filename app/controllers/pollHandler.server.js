@@ -22,29 +22,31 @@ function PollHandler () {
 			});
 	};
 	
-	this.addPoll = function (req, res) {
+	this.addPoll = function (req, response) {
 		Polls
 			.find({ })
 			.sort({pollID: -1})
 			.limit(1)
 			.exec((err, result) => {
-				if(err) res.json(error);
-				var newPollID = 1;
-				if (result.length != 0) newPollID = result.pollID + 1;
-				Polls
-					.create({
-						pollID: newPollID,
-						metadata: {
-							name: req.body.pollName,
-							description: req.body.pollDesc,
-							createDate: new Date().toDateString(),
-							createdBy: req.user.id
-						},
-						options: req.body.options
-					}, (error, saveResult) => {
-						if(error) res.json(error);
-						res.json(saveResult);
-					});
+				if(err) response.status(500).send(err);
+				else {
+					var newPollID = 1;
+					if (result.length != 0) newPollID = result[0].pollID + 1;
+					Polls
+						.create({
+							pollID: newPollID,
+							metadata: {
+								name: req.body.pollName,
+								description: req.body.pollDesc,
+								createDate: new Date().toDateString(),
+								createdBy: req.user.google.id
+							},
+							options: req.body.options
+						}, (error, saveResult) => {
+							if(error) response.status(500).send(error);
+							else response.send(saveResult);
+						});
+				}
 			});
 	};
 	

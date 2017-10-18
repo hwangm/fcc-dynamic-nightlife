@@ -88,9 +88,7 @@
          $scope.submitOption = (pollID) => {
             var pollData = _.find($scope.polls, (el) => { return el.pollID == pollID }); //find the poll data matching poll ID
             var optionName = $('input[name="options'+pollID+'"]').val();
-            console.log(optionName);
             var optionData = _.each(pollData.options, (el, ind, list) => { console.log(el); if(el.name == optionName) {  el.count++; } });
-            console.log(optionData);
             pollData.options = optionData;
             
             //update the poll options with the incremented count in database
@@ -140,11 +138,19 @@
          
          $scope.addNewPoll = () => {
             $scope.newPollSubmitted = true;
+            var optionObject = _.map($scope.option, (val) => { return { 'name': val, 'count': 0 }; });
             Poll.
                save(null, {
                   'pollName': $scope.newPollName,
                   'pollDesc': $scope.newPollDesc,
-                  'options': $scope.option
+                  'options': optionObject
+               }, 
+               (result) => {
+                  $('#pollResult').text('New poll saved successfully. Check it out!');
+               }, 
+               (err) => {
+                  console.log(err);
+                  $('#pollResult').text('Something went wrong, your poll was not saved. Try again later!');
                });
          };
          
