@@ -1,6 +1,7 @@
 'use strict';
 
 var Polls = require('../models/polls.js');
+var moment = require('moment');
 
 function PollHandler () {
 
@@ -22,6 +23,15 @@ function PollHandler () {
 			});
 	};
 	
+	this.getOnePoll = function (req, response) {
+		Polls
+			.findOne({ 'pollID': req.params.id })
+			.exec(function(err, result) {
+				if (err) { throw err; }
+				response.json(result);
+			});
+	};
+	
 	this.addPoll = function (req, response) {
 		Polls
 			.find({ })
@@ -38,7 +48,7 @@ function PollHandler () {
 							metadata: {
 								name: req.body.pollName,
 								description: req.body.pollDesc,
-								createDate: new Date().toDateString(),
+								createDate: moment().format(),
 								createdBy: req.user.google.id
 							},
 							options: req.body.options

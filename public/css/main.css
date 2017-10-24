@@ -207,3 +207,18 @@ span {
 [ng-cloak]{
 	display: none !important;
 }
+
+.poll-card{
+	padding: 8px 5px;
+}
+
+.subtext{
+	font-size: 14px;
+	font-weight: normal;
+	color: darkgray;
+}
+
+.btn-view{
+	width: auto;
+	
+}

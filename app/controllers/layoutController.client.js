@@ -16,6 +16,12 @@
                 templateUrl : 'public/profile_voting.html',
                 controller  : 'profileController'
             })
+            
+            //when viewing a specific poll
+            .when('/poll/:id', {
+                templateUrl : 'public/poll.html',
+                controller : 'pollController'
+            })
 
             // route for the contact page
             .when('/login', {
@@ -30,6 +36,10 @@
             getPolls: function() {
                 let Poll = $resource('/api/allPolls');
                 return Poll.query().$promise;
+            },
+            getPoll: function(pollID) {
+                let Poll = $resource('/api/polls/' + pollID);
+                return Poll.get().$promise;
             },
             updatePollCount: function(pollID, pollData) {
                 let Poll = $resource('/api/polls/' + pollID, {}, {
@@ -69,6 +79,128 @@
     }]);
     
     // create the controller and inject Angular's $scope
+    votingApp.controller('pollController', ['$scope', '$resource', '$routeParams', 'pollService', '$q', '$timeout', function ($scope, $resource, $routeParams, pollService, $q, $timeout) {
+        var pollID = $routeParams.id;
+        $scope.getPoll = function() {
+                var deferred = $q.defer();
+                pollService.getPoll(pollID).then(function(results) {
+                    $scope.poll = results;
+                    deferred.resolve(results);
+                    pollService.isAuth().then(function(res) {
+                        $scope.isAuthenticated = res.isAuthenticated;
+                    });
+                },
+                function(error) {
+                    deferred.reject(error);
+                });
+                return deferred.promise;
+            };
+        
+        $scope.addSaveNewOption = (id) => {
+            var newOptionText = $('#newOption_' + id).val();
+            var pollData = $scope.poll;
+            pollData.options.push({
+                'name': newOptionText,
+                'count': 1
+            });
+            pollService.updatePollCount(id, pollData).then(function(results) {
+                $scope.updateChart(id);
+            });
+        }
+        
+        $scope.showPollDetails = (id) => {
+            if ($scope['showDetails' + id]) $scope['showDetails' + id] = false;
+            else $scope['showDetails' + id] = true;
+            $scope.initChart(id);
+        };
+        
+        $scope.initChart = (id) => {
+            
+            var pollLabels = [],
+                pollDataPoints = [],
+                backgroundColors = [];
+        
+            for (var x of $scope.poll.options) { //populate the labels and datapoints
+                pollLabels.push(x.name);
+                pollDataPoints.push(x.count);
+                let r = Math.floor(Math.random() * 200);
+                let g = Math.floor(Math.random() * 200);
+                let b = Math.floor(Math.random() * 200);
+                let color = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                backgroundColors.push(color);
+            }
+            var ctx = document.getElementById('pollChart' + id).getContext('2d');
+            $timeout(() => {
+                $scope['chart' + id] = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'pie',
+            
+                    // The data for our dataset
+                    data: {
+                        labels: pollLabels,
+                        datasets: [{
+                            data: pollDataPoints,
+                            backgroundColor: backgroundColors
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        maintainAspectRatio: false
+                    }
+                });
+            }, 100);
+        }
+        
+        $scope.getPoll().then(function() {
+            $scope.initChart(pollID);
+        });
+        
+        $scope.updateChart = (id) => {
+        
+            $scope.getPoll().then(function(result) {
+                var pollLabels = [],
+                    pollDataPoints = [],
+                    backgroundColors = [];
+                
+                for (var x of $scope.poll.options) { //populate the labels and datapoints
+                    pollLabels.push(x.name);
+                    pollDataPoints.push(x.count);
+                    let r = Math.floor(Math.random() * 200);
+                    let g = Math.floor(Math.random() * 200);
+                    let b = Math.floor(Math.random() * 200);
+                    let color = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                    backgroundColors.push(color);
+                }
+                $scope['chart' + pollID].data.datasets[0].data = pollDataPoints;
+                $scope['chart' + pollID].data.labels = pollLabels;
+                $scope['chart' + pollID].data.datasets[0].backgroundColor = backgroundColors;
+                $timeout(function() {
+                    $scope['chart'+pollID].update();
+                }, 200);
+            });
+        
+        }
+        
+        $scope.submitOption = (pollID) => {
+            var pollData = $scope.poll;
+            var optionName = $('input[name="options' + pollID + '"]:checked').val();
+            var optionData = _.each(pollData.options, (el, ind, list) => { if (el.name == optionName) { el.count++; } });
+            pollData.options = optionData;
+            if ($('input[name="options' + pollID + '"]:checked').val() == undefined) { //means none are checked
+                $('#optionResultPoll' + pollID).text("No option selected, please select an option and try again.");
+            }
+            else {
+                //update the poll options with the incremented count in database
+                //use HTTP PUT 
+                pollService.updatePollCount(pollID, pollData).then((results) => {
+                    $scope.updateChart(pollID);
+                    $('#optionResultPoll_' + pollID).text("You chose " + optionName);
+                });
+            }
+        };
+    }]);
+    
+    // create the controller and inject Angular's $scope
     votingApp.controller('headerController', ['$scope', '$resource', '$route', 'pollService', function ($scope, $resource, $route, pollService) {
         pollService.isAuth().then(function(result) {
             $scope.isAuthenticated = result.isAuthenticated;
@@ -97,113 +229,40 @@
         
     }]);
     votingApp
-        .controller('indexVotingController', ['$scope', '$resource', 'pollService', '$q', function($scope, $resource, pollService, $q) {
+        .controller('indexVotingController', ['$scope', '$resource', 'pollService', '$q', '$window', function($scope, $resource, pollService, $q, $window) {
 
             $scope.getPolls = function() {
                 var deferred = $q.defer();
                 pollService.getPolls().then(function(results) {
-                    $scope.polls = results;
-                    deferred.resolve(results);
-                    pollService.isAuth().then(function(res) {
-                        $scope.isAuthenticated = res.isAuthenticated;
+                        $scope.polls = results;
+                        _.each($scope.polls, function(el) {
+                            el.metadata.createDateLocal = moment(el.metadata.createDate).format('MMMM DD, YYYY');
+                        })
+                        deferred.resolve(results);
+                        pollService.isAuth().then(function(res) {
+                            $scope.isAuthenticated = res.isAuthenticated;
+                        });
+                    },
+                    function(error) {
+                        deferred.reject(error);
                     });
-                },
-                function(error) {
-                    deferred.reject(error);
-                });
                 return deferred.promise;
             };
-        
+
             $scope.getPolls();
-    
-            $scope.showPollDetails = (id) => {
-                if ($scope['showDetails' + id]) $scope['showDetails' + id] = false;
-                else $scope['showDetails' + id] = true;
-                $scope.initChart(id);
-            };
-    
-            $scope.initChart = (id) => {
-                var pollData = _.find($scope.polls, (el) => { return el.pollID == id }); //find the poll data matching poll ID
-                var pollLabels = [],
-                    pollDataPoints = [],
-                    backgroundColors = [];
-    
-                for (var x of pollData.options) { //populate the labels and datapoints
-                    pollLabels.push(x.name);
-                    pollDataPoints.push(x.count);
-                    let r = Math.floor(Math.random() * 200);
-                    let g = Math.floor(Math.random() * 200);
-                    let b = Math.floor(Math.random() * 200);
-                    let color = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-                    backgroundColors.push(color);
-                }
-                var ctx = document.getElementById('pollChart' + id).getContext('2d');
-                $scope['chart'+id] = new Chart(ctx, {
-                    // The type of chart we want to create
-                    type: 'pie',
-    
-                    // The data for our dataset
-                    data: {
-                        labels: pollLabels,
-                        datasets: [{
-                            data: pollDataPoints,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: false,
-                        maintainAspectRatio: false
-                    }
-                });
-            }
-            
-            $scope.updateChart = (id) => {
-                
-                $scope.getPolls().then(function(result) {
-                    var pollData = _.find($scope.polls, (el) => { return el.pollID == id }); //find the poll data matching poll ID
-                    var pollLabels = [],
-                        pollDataPoints = [],
-                        backgroundColors = [];
-                
-                    for (var x of pollData.options) { //populate the labels and datapoints
-                        pollLabels.push(x.name);
-                        pollDataPoints.push(x.count);
-                        let r = Math.floor(Math.random() * 200);
-                        let g = Math.floor(Math.random() * 200);
-                        let b = Math.floor(Math.random() * 200);
-                        let color = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-                        backgroundColors.push(color);
-                    }
-                    $scope['chart' + id].config.data.labels = pollLabels;
-                    $scope['chart' + id].config.data.datasets[0].data = pollData;
-                    $scope['chart' + id].config.data.datasets[0].backgroundColor = backgroundColors;
-                    $scope['chart' + id].update();
-                });
-                
-            }
-    
-            $scope.submitOption = (pollID) => {
-                var pollData = _.find($scope.polls, (el) => { return el.pollID == pollID }); //find the poll data matching poll ID
-                var optionName = $('input[name="options' + pollID + '"]:checked').val();
-                var optionData = _.each(pollData.options, (el, ind, list) => { if (el.name == optionName) { el.count++; } });
-                pollData.options = optionData;
-    
-                //update the poll options with the incremented count in database
-                //use HTTP PUT 
-                pollService.updatePollCount(pollID, pollData).then((results) => {
-                    $scope.updateChart(pollID);
-                });
 
+            $scope.showPollDetails = function(pollID) {
+                $window.location.href = '/#!/poll/' + pollID;
+            }
 
-            };
 
             $scope.createNewPoll = false;
-    
+
             $scope.option = [];
             $scope.options = [1, 2, 3];
-    
+
             $scope.newPollSubmitted = false;
-    
+
             $scope.addNewPoll = () => {
                 $scope.newPollSubmitted = true;
                 var optionObject = _.map($scope.option, (val) => { return { 'name': val, 'count': 0 }; });
@@ -213,7 +272,7 @@
                     'optionObject': optionObject
                 };
                 pollService.savePoll(pollDataObject).then(function(result) {
-                    if (result.err){ //means there is an error
+                    if (result.err) { //means there is an error
                         console.log(result.err);
                         $('#pollResult').text('Something went wrong, your poll was not saved. Try again later!');
                     }
@@ -222,51 +281,42 @@
                         $scope.getPolls();
                     }
                 });
-            
+
             };
     
             $scope.showForm = () => {
                 $scope.createNewPoll = true;
             };
-    
+            
             $scope.updateOptions = (x) => {
                 $scope.option[x - 1] = $("#option" + x).val();
             };
-    
+            
             $scope.addOption = () => {
                 $scope.options.push($scope.options.length + 1);
             };
     
+
         }]);
     votingApp
-        .controller('profileController', ['$scope', '$resource', 'pollService', function($scope, $resource, pollService) {
+        .controller('profileController', ['$scope', '$resource', 'pollService', '$window', function($scope, $resource, pollService, $window) {
             var polls = $resource('/api/polls');
     
             $scope.getPolls = function() {
                 pollService.getPolls().then(function(results) {
                     $scope.polls = results;
+                    _.each($scope.polls, function(el) {
+                            el.metadata.createDateLocal = moment(el.metadata.createDate).format('MMMM DD, YYYY');
+                    });
                     pollService.isAuth().then(function(res) {
                         $scope.isAuthenticated = res.isAuthenticated;
                     });
                 });
             };
-    
-    
-            $scope.viewPoll = function(pollID) {
-                $scope.poll = {
-                    action: 'view',
-                    actionID: pollID
-                };
-                document.getElementById('pollResults' + pollID).innerHTML = 'Viewing poll ' + pollID;
-            };
-    
-            $scope.editPoll = function(pollID) {
-                $scope.poll = {
-                    action: 'edit',
-                    actionID: pollID
-                };
-                document.getElementById('pollResults' + pollID).innerHTML = 'Editing poll ' + pollID;
-            };
+            
+            $scope.showPollDetails = function(pollID) {
+                $window.location.href = '/#!/poll/' + pollID;
+            }
     
             $scope.deletePoll = function(pollID) {
                 $scope.poll = {

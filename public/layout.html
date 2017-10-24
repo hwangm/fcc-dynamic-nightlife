@@ -7,6 +7,7 @@
     <script src="https://use.fontawesome.com/6ad6929304.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
   </head>
   <header ng-controller="headerController">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -22,10 +23,14 @@
             </div>
           </li>
           <li class="nav-item" ng-show="isAuthenticated">
-            <a class="nav-link" href="#!profile">Profile</a>            
+            <a class="nav-link" href="#!">Home</a>
+          </li>
+          <li class="nav-item" ng-show="isAuthenticated">
+            <a class="nav-link" href="#!profile">My Polls</a>            
           </li>
           <li class="nav-item" ng-hide="isAuthenticated">
             <a class="nav-link" title="Log in with your Google Account" href="/auth/google">
+              Login with 
               <i class="fa fa-google" aria-hidden="true"></i>
             </a>
           </li>

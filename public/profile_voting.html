@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <div ng-controller="profileController">
-    <div class="container">
-      <div class="github-profile">
-        <p><span>Google ID: </span><span class="profile-value" ng-cloak id="google-id">{{ googleID }}</span></p>
-        <p><span>Google Display Name: </span><span class="profile-value" ng-cloak id="google-name">{{ googleDisplayName }}</span></p><a class="menu" href="/">Home</a>
-      </div>
-    </div>
     <div class="container" >
       <h2>Your polls: </h2>
       <div class="poll-container w-75 mx-auto">
-        <div class="card my-2" ng-repeat="x in polls" id="pollContainer{{x.pollID}}">
+        <div class="poll-card card my-2" ng-repeat="x in polls" id="pollContainer{{x.pollID}}">
           <div class="row">
             <div class="col-md-4">
               <div class="row">
@@ -19,10 +13,9 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-2">{{x.metadata.createDate}}</div>
+            <div class="col-md-2">{{x.metadata.createDateLocal}}</div>
             <div class="col-md-6 button-group">
-              <button type="button" data-poll-id="{{x.pollID}}" class="btn btn-info" ng-click="viewPoll(x.pollID)">View</button>
-              <button type="button" data-poll-id="{{x.pollID}}" class="btn btn-info" ng-click="editPoll(x.pollID)">Edit</button>
+              <button type="button" data-poll-id="{{x.pollID}}" class="btn btn-info" ng-click="showPollDetails(x.pollID)">View</button>
               <button type="button" data-poll-id="{{x.pollID}}" class="btn btn-danger" ng-click="deletePoll(x.pollID)">Delete</button>
             </div>
             <div class="col-md-12" id="pollResults{{x.pollID}}" ng-show="poll{{x.pollID}}ActionTaken">

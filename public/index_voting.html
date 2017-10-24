@@ -9,49 +9,58 @@
       <span>No Polls in the system!</span>
     </div>
     <div class="poll-container w-75 mx-auto">
-      <div class="card my-2" ng-repeat="x in polls">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="row">
-              <div class="col-md-12">
-                <h4>{{x.metadata.name}}</h4>
-                <div>{{x.metadata.description}}</div>
+      <div class="row">
+        <div class="poll-card card col-md-6" ng-repeat="x in polls">
+          <div class="row">
+            <div class="col-md-12">
+              <span class="h4">{{x.metadata.name}}</span>
+              <span class="subtext">{{x.metadata.description}}</span>
+            </div>
+            <div class="col-md-12 d-flex flex-row justify-content-between align-items-center">{{x.metadata.createDateLocal}}
+              <button type="button" class="btn btn-info btn-view" ng-click="showPollDetails(x.pollID)">View Poll Details</button>
+            </div>
+          </div>
+          <div class="row" ng-show="{{'showDetails'+x.pollID}}">
+            <div class="col-md-4">
+              <div class="option-header">Vote for an option: </div>
+              <div class="option-choice" ng-repeat="y in x.options">
+                <input type="radio" id="{{'poll_'+x.pollID+'_optionName_'+y.name}}" name="{{'options'+x.pollID}}" value="{{y.name}}">
+                <label for="{{'poll_'+x.pollID+'_optionName_'+y.name}}">{{y.name}}</label>
+                </input>
+              </div>
+              <div class="option-submit-button">
+                <button type="button" id="{{'chooseOption_'+x.pollID}}" class="btn btn-info" ng-click="submitOption(x.pollID)">Submit</button>
+                <div id="{{'optionResultPoll_'+x.pollID}}" class="option-submit-results">
+    
+                </div>
+              </div>
+              <div class="option-add-button" ng-show="isAuthenticated">
+                <label for="{{'newOption_'+x.pollID}}">
+                    Add option
+                    <input type="text" id="{{'newOption_'+x.pollID}}" name="{{'newOption_'+x.pollID}}" placeholder="new option"></input>
+                  </label>
+                <button type="button" id="{{'chooseOption_'+x.pollID}}" class="btn btn-create btn-info" ng-click="addSaveNewOption(x.pollID)">Save choice and add option</button>
+    
               </div>
             </div>
-          </div>
-          <div class="col-md-2">{{x.metadata.createDate}}</div>
-          <div class="col-md-6">
-            <button type="button" class="btn btn-info my-auto" ng-click="showPollDetails(x.pollID)">Show/Hide</button>
-          </div>
-        </div>
-        <div class="row" ng-show="{{'showDetails'+x.pollID}}">
-          <div class="col-md-4">
-            <div class="option-header">Vote for an option: </div>
-            <div class="option-choice" ng-repeat="y in x.options">
-              <input type="radio" id="{{'poll_'+x.pollID+'_optionName_'+y.name}}" name="{{'options'+x.pollID}}" value="{{y.name}}">
-                <label for="{{'poll_'+x.pollID+'_optionName_'+y.name}}">{{y.name}}</label>
-              </input>
+            <div class="col-md-8" id="{{'pollChart'+x.pollID+'Container'}}">
+              <canvas id="{{'pollChart'+x.pollID}}" width="300px" height="300px"></canvas>
             </div>
-            <div class="option-submit-button">
-              <button type="button" id="{{'chooseOption_'+x.pollID}}" class="btn btn-info" ng-click="submitOption(x.pollID)">Submit</button>
-              <div class="option-submit-results" ng-show="userSubmittedOption"></div>
-            </div>
+    
           </div>
-          <div class="col-md-8">
-            <canvas id="{{'pollChart'+x.pollID}}" width="300px" height="300px"></canvas>
-          </div>
-
         </div>
       </div>
+    
     </div>
   </div>
-  <div class="container text-center" ng-show="isAuthenticated">
+  <div class="container text-center mt-2" ng-show="isAuthenticated">
     <button type="button" class="btn btn-create btn-info" ng-click="showForm()">Create a new poll?</button>
-    <form ng-show="createNewPoll">
+    <form name="form" ng-show="createNewPoll" novalidate ng-submit="form.$valid && addNewPoll()">
       <h3>Create a new Poll!</h3>
       <div class="form-group">
         <label for="pollName">Poll Name</label>
-        <input type="text" name="pollName" id="pollName" placeholder="Poll Name Here" ng-model="newPollName" />
+        <input type="text" name="pollName" id="pollName" placeholder="Poll Name Here" ng-model="newPollName" required/>
+        <span ng-show="form.pollName.$error.required && form.pollName.$touched">Poll Name Required<br></span>
       </div>
       <div class="form-group">
         <label for="pollDesc">Poll Description</label>
@@ -66,7 +75,7 @@
 
       </div>
       <button type="button" class="btn btn-info btn-create" ng-click="addOption()">Add an Option</button>
-      <button type="submit" class="btn btn-info btn-create" ng-click="addNewPoll()">Submit Poll</button>
+      <button type="submit" class="btn btn-info btn-create">Submit Poll</button>
     </form>
     <div id="pollResult" ng-show="newPollSubmitted">
       You want to create a poll named {{ newPollName }} for {{ newPollDesc }}? Really? With options like {{option}}?

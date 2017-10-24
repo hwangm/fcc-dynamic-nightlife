@@ -14,7 +14,6 @@ module.exports = function (app, passport) {
 		}
 	}
 
-	var clickHandler = new ClickHandler();
 	var pollHandler = new PollHandler();
 
 	app.route('/')
@@ -30,7 +29,7 @@ module.exports = function (app, passport) {
 	app.route('/logout')
 		.get(function (req, res) {
 			req.logout();
-			res.redirect('/login');
+			res.redirect('/');
 		});
 
 	app.route('/profile')
@@ -42,6 +41,7 @@ module.exports = function (app, passport) {
 		.get(isLoggedIn, pollHandler.getPolls);
 		
 	app.route('/api/polls/:id')
+		.get(pollHandler.getOnePoll)
 		.post(pollHandler.addPoll)
 		.put(pollHandler.updatePoll)
 		.delete(isLoggedIn, pollHandler.removePoll);
@@ -92,8 +92,4 @@ module.exports = function (app, passport) {
 			failureRedirect: '/login'
 		}));
 
-	app.route('/api/:id/clicks')
-		.get(isLoggedIn, clickHandler.getClicks)
-		.post(isLoggedIn, clickHandler.addClick)
-		.delete(isLoggedIn, clickHandler.resetClicks);
 };

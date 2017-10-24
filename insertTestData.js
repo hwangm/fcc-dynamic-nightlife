@@ -22,14 +22,14 @@ mongoose.Promise = global.Promise;
  * into the collection
  */
 
-Poll.remove({ "metadata.createDate": "September 27, 2017" }, function(err) {
+Poll.remove({ "metadata.createDate": "2017-10-01T10:35:24-08:00" }, function(err) {
 	if(err) throw err;
 	var poll1 = new Poll({
 		pollID: 1,
 		metadata: {
 	        name: "Test poll 1",
 	        description: "Test poll data 1",
-	        createDate: "September 27, 2017",
+	        createDate: "2017-10-01T10:35:24-08:00",
 	        createdBy: "115186002489441654144"
 	    },
 	    options: [
@@ -44,7 +44,7 @@ Poll.remove({ "metadata.createDate": "September 27, 2017" }, function(err) {
 		metadata: {
 	        name: "Test poll 2",
 	        description: "Test poll data 2",
-	        createDate: "September 27, 2017",
+	        createDate: "2017-10-01T10:35:24-08:00",
 	        createdBy: "115186002489441654144"
 	    },
 	    options: [
@@ -60,7 +60,7 @@ Poll.remove({ "metadata.createDate": "September 27, 2017" }, function(err) {
 		metadata: {
 	        name: "Test poll 3",
 	        description: "Test poll data 3",
-	        createDate: "September 27, 2017",
+	        createDate: "2017-10-01T10:35:24-08:00",
 	        createdBy: "115186002489441654144"
 	    },
 	    options: [
@@ -77,7 +77,7 @@ Poll.remove({ "metadata.createDate": "September 27, 2017" }, function(err) {
 		metadata: {
 	        name: "Test poll 4",
 	        description: "Test poll data 4",
-	        createDate: "September 27, 2017",
+	        createDate: "2017-10-01T10:35:24-08:00",
 	        createdBy: "115186002489441654144"
 	    },
 	    options: [
