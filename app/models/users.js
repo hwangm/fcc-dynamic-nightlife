@@ -8,7 +8,7 @@ var User = new Schema({
 		id: String,
 		displayName: String,
 		username: String,
-      publicRepos: Number
+    	publicRepos: Number
 	},
 	twitter: {
 	    id: String,
@@ -20,9 +20,7 @@ var User = new Schema({
 		displayName: String,
 		name: Object
 	},
-    nbrClicks: {
-        clicks: Number
-    }
+	pollsVotedOn: Array
 });
 
 module.exports = mongoose.model('User', User);

@@ -104,7 +104,10 @@
                 'count': 1
             });
             pollService.updatePollCount(id, pollData).then(function(results) {
-                $scope.updateChart(id);
+                if(results.votedAlready == true){
+                    alert('You already voted on this poll and cannot add a new option.');
+                }
+                else $scope.updateChart(id);
             });
         }
         
@@ -193,8 +196,14 @@
                 //update the poll options with the incremented count in database
                 //use HTTP PUT 
                 pollService.updatePollCount(pollID, pollData).then((results) => {
-                    $scope.updateChart(pollID);
-                    $('#optionResultPoll_' + pollID).text("You chose " + optionName);
+                    if(results.votedAlready == true){
+                        alert('You have previously voted on this poll and cannot vote again.');
+                    }
+                    else{
+                        $scope.updateChart(pollID);
+                        $('#optionResultPoll_' + pollID).text("You chose " + optionName);
+                    }
+                    
                 });
             }
         };

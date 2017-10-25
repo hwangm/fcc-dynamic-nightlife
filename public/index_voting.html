@@ -20,37 +20,8 @@
               <button type="button" class="btn btn-info btn-view" ng-click="showPollDetails(x.pollID)">View Poll Details</button>
             </div>
           </div>
-          <div class="row" ng-show="{{'showDetails'+x.pollID}}">
-            <div class="col-md-4">
-              <div class="option-header">Vote for an option: </div>
-              <div class="option-choice" ng-repeat="y in x.options">
-                <input type="radio" id="{{'poll_'+x.pollID+'_optionName_'+y.name}}" name="{{'options'+x.pollID}}" value="{{y.name}}">
-                <label for="{{'poll_'+x.pollID+'_optionName_'+y.name}}">{{y.name}}</label>
-                </input>
-              </div>
-              <div class="option-submit-button">
-                <button type="button" id="{{'chooseOption_'+x.pollID}}" class="btn btn-info" ng-click="submitOption(x.pollID)">Submit</button>
-                <div id="{{'optionResultPoll_'+x.pollID}}" class="option-submit-results">
-    
-                </div>
-              </div>
-              <div class="option-add-button" ng-show="isAuthenticated">
-                <label for="{{'newOption_'+x.pollID}}">
-                    Add option
-                    <input type="text" id="{{'newOption_'+x.pollID}}" name="{{'newOption_'+x.pollID}}" placeholder="new option"></input>
-                  </label>
-                <button type="button" id="{{'chooseOption_'+x.pollID}}" class="btn btn-create btn-info" ng-click="addSaveNewOption(x.pollID)">Save choice and add option</button>
-    
-              </div>
-            </div>
-            <div class="col-md-8" id="{{'pollChart'+x.pollID+'Container'}}">
-              <canvas id="{{'pollChart'+x.pollID}}" width="300px" height="300px"></canvas>
-            </div>
-    
-          </div>
         </div>
       </div>
-    
     </div>
   </div>
   <div class="container text-center mt-2" ng-show="isAuthenticated">

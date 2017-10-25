@@ -1,10 +1,25 @@
 'use strict';
 
 var Polls = require('../models/polls.js');
+var Users = require('../models/users.js');
 var moment = require('moment');
 
-function PollHandler () {
+function votedOnAlready(userID, pollID, callback) {
+	Users
+		.findOne({'google.id': userID})
+		.exec((err, data) => {
+			if(err) { console.log(err); }
+			if(data.pollsVotedOn.indexOf(pollID.toString()) != -1) { //they've voted on the poll before
+				callback(null, true);
+			}
+			else {
+				callback(null, false);
+			}
+		});
+};
 
+function PollHandler () {
+	
 	this.getPolls = function (req, res) {
 		Polls
 			.find({ 'metadata.createdBy': req.user.google.id }, { '_id': false })
@@ -70,20 +85,53 @@ function PollHandler () {
 	};
 	
 	this.updatePoll = function (req, response) {
-		Polls
-			.replaceOne({ 'pollID': req.params.id }, req.body.newDoc)
-			.exec((err, data) => {
-				if (err) {
-					response.json(err);
+		if(req.user !== undefined){
+			votedOnAlready(req.user.google.id, req.params.id, (err, votedAlready) => {
+				if (err) { response.json({'error': err}); }
+				if (votedAlready) {
+					response.json({ 'votedAlready': true });
 				}
-				response.json(data);
+				else {
+					Polls //add the vote to the Poll
+						.replaceOne({ 'pollID': req.params.id }, req.body.newDoc)
+						.exec((err, data) => {
+							if (err) {
+								response.json(err);
+							}
+							response.json(data);
+						});
+					Users //add the Poll to the list of polls user has voted on
+						.findOne({ 'google.id': req.user.google.id })
+						.exec((err, data) => {
+							if (err) {
+								console.log(err);
+							}
+							data.pollsVotedOn.push(req.params.id);
+							Users
+								.replaceOne({ 'google.id': req.user.google.id }, data)
+								.exec((err, data) => {
+									if (err) {
+										console.log(err);
+									}
+								});
+						});
+				}
 			});
+			
+		}
+		else{
+			Polls //add the vote to the Poll
+					.replaceOne({ 'pollID': req.params.id }, req.body.newDoc)
+					.exec((err, data) => {
+						if (err) {
+							response.json(err);
+						}
+						response.json(data);
+					});
+		}
 	};
 	
-	this.editPoll = function (req, res) {
-		
-	};
-
+	
 }
 
 module.exports = PollHandler;

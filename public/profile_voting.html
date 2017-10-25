@@ -2,27 +2,30 @@
 <div ng-controller="profileController">
     <div class="container" >
       <h2>Your polls: </h2>
+      <div class="poll-container w-75 mx-auto text-center" ng-show="noPolls">
+        <span>You have no polls.</span>
+      </div>
       <div class="poll-container w-75 mx-auto">
-        <div class="poll-card card my-2" ng-repeat="x in polls" id="pollContainer{{x.pollID}}">
-          <div class="row">
-            <div class="col-md-4">
-              <div class="row">
-                <div class="col-md-12">
-                  <h4>{{x.metadata.name}}</h4>
-                  <div>{{x.metadata.description}}</div>
+        <div class="row">
+          <div class="poll-card card col-md-6" ng-repeat="x in polls">
+            <div class="row">
+              <div class="col-md-12">
+                <span class="h4">{{x.metadata.name}}</span>
+                <span class="subtext">{{x.metadata.description}}</span>
+              </div>
+              <div class="col-md-12 d-flex flex-row justify-content-between align-items-center">{{x.metadata.createDateLocal}}
+                <div class="col-md-6 button-group d-flex flex-row">
+                  <button type="button" data-poll-id="{{x.pollID}}" class="btn btn-info btn-profile" ng-click="showPollDetails(x.pollID)">View</button>
+                  <button type="button" data-poll-id="{{x.pollID}}" class="btn btn-danger btn-profile" ng-click="deletePoll(x.pollID)">Delete</button>
+                </div>
+                <div class="col-md-12" id="pollResults{{x.pollID}}" ng-show="poll{{x.pollID}}ActionTaken">
+                  You want to {{ poll.action }} poll number {{ poll.actionID }}?
                 </div>
               </div>
             </div>
-            <div class="col-md-2">{{x.metadata.createDateLocal}}</div>
-            <div class="col-md-6 button-group">
-              <button type="button" data-poll-id="{{x.pollID}}" class="btn btn-info" ng-click="showPollDetails(x.pollID)">View</button>
-              <button type="button" data-poll-id="{{x.pollID}}" class="btn btn-danger" ng-click="deletePoll(x.pollID)">Delete</button>
-            </div>
-            <div class="col-md-12" id="pollResults{{x.pollID}}" ng-show="poll{{x.pollID}}ActionTaken">
-              You want to {{ poll.action }} poll number {{ poll.actionID }}?
-            </div>
           </div>
         </div>
+        
       </div>
       <div class="w-75 mx-auto" id="noPolls" ng-show="noPolls">
         You have no polls! 

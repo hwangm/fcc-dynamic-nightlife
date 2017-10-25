@@ -210,6 +210,8 @@ span {
 
 .poll-card{
 	padding: 8px 5px;
+	margin-bottom: 5px;
+	margin-top: 5px;
 }
 
 .subtext{
@@ -220,5 +222,4 @@ span {
 
 .btn-view{
 	width: auto;
-	
 }
