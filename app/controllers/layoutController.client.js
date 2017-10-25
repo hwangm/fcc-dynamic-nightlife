@@ -105,6 +105,7 @@
             });
             pollService.updatePollCount(id, pollData).then(function(results) {
                 if(results.votedAlready == true){
+                    pollData.options.splice(_.indexOf(pollData.options, newOptionText), 1);
                     alert('You already voted on this poll and cannot add a new option.');
                 }
                 else $scope.updateChart(id);
