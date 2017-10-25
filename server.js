@@ -20,6 +20,7 @@ app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/common', express.static(process.cwd() + '/app/common'));
 app.use(bodyParser.json()); // for parsing application/json
+app.set('trust proxy', true);
 
 app.use(session({
 	secret: 'secretClementine',

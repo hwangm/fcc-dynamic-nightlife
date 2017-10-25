@@ -223,3 +223,10 @@ span {
 .btn-view{
 	width: auto;
 }
+
+.option-container{
+	border: 1px solid rgba(0,0,0,.125);
+	padding: 5px 8px;
+	margin-bottom: 5px;
+	border-radius: 0.25rem;
+}

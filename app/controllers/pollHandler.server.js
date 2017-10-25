@@ -4,12 +4,36 @@ var Polls = require('../models/polls.js');
 var Users = require('../models/users.js');
 var moment = require('moment');
 
-function votedOnAlready(userID, pollID, callback) {
+function votedOnAlreadyByID(userID, pollID, callback) {
 	Users
 		.findOne({'google.id': userID})
 		.exec((err, data) => {
 			if(err) { console.log(err); }
 			if(data.pollsVotedOn.indexOf(pollID.toString()) != -1) { //they've voted on the poll before
+				callback(null, true);
+			}
+			else {
+				callback(null, false);
+			}
+		});
+};
+
+function votedOnAlreadyByIP(ipAddr, pollID, callback){
+	
+	Users
+		.findOne({'ipAddress': ipAddr})
+		.exec((err, data) => {
+			if(err) { console.log(err); }
+			if(data == null) { //no user found, create a new one
+				var u = new Users();
+				u.ipAddress = ipAddr;
+				u.pollsVotedOn = [];
+				u.save((err, data) => {
+					if(err) console.log(err);
+					callback(null, false);
+				});
+			}
+			else if(data.pollsVotedOn.indexOf(pollID.toString()) != -1) { //they've voted on the poll before
 				callback(null, true);
 			}
 			else {
@@ -86,7 +110,7 @@ function PollHandler () {
 	
 	this.updatePoll = function (req, response) {
 		if(req.user !== undefined){
-			votedOnAlready(req.user.google.id, req.params.id, (err, votedAlready) => {
+			votedOnAlreadyByID(req.user.google.id, req.params.id, (err, votedAlready) => {
 				if (err) { response.json({'error': err}); }
 				if (votedAlready) {
 					response.json({ 'votedAlready': true });
@@ -120,14 +144,37 @@ function PollHandler () {
 			
 		}
 		else{
-			Polls //add the vote to the Poll
-					.replaceOne({ 'pollID': req.params.id }, req.body.newDoc)
-					.exec((err, data) => {
-						if (err) {
-							response.json(err);
-						}
-						response.json(data);
-					});
+			votedOnAlreadyByIP(req.ip, req.params.id, (err, votedAlready) => {
+				if (err) { response.json({'error': err}); }
+				if (votedAlready) {
+					response.json({ 'votedAlready': true });
+				}
+				else {
+					Polls //add the vote to the Poll
+						.replaceOne({ 'pollID': req.params.id }, req.body.newDoc)
+						.exec((err, data) => {
+							if (err) {
+								response.json(err);
+							}
+							response.json(data);
+						});
+					Users //add the Poll to the list of polls user has voted on
+						.findOne({ 'ipAddress': req.ip })
+						.exec((err, data) => {
+							if (err) {
+								console.log(err);
+							}
+							data.pollsVotedOn.push(req.params.id);
+							Users
+								.replaceOne({ 'ipAddress': req.ip }, data)
+								.exec((err, d) => {
+									if (err) {
+										console.log(err);
+									}
+							});
+						});
+				}
+			});
 		}
 	};
 	
