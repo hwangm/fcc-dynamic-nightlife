@@ -19,7 +19,6 @@ function votedOnAlreadyByID(userID, pollID, callback) {
 };
 
 function votedOnAlreadyByIP(ipAddr, pollID, callback){
-	
 	Users
 		.findOne({'ipAddress': ipAddr})
 		.exec((err, data) => {
