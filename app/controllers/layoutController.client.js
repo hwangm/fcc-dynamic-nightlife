@@ -112,12 +112,6 @@
             });
         }
         
-        $scope.showPollDetails = (id) => {
-            if ($scope['showDetails' + id]) $scope['showDetails' + id] = false;
-            else $scope['showDetails' + id] = true;
-            $scope.initChart(id);
-        };
-        
         $scope.initChart = (id) => {
             
             var pollLabels = [],
@@ -156,7 +150,9 @@
         }
         
         $scope.getPoll().then(function() {
-            $scope.initChart(pollID);
+            $(document).ready(() => {
+                $scope.initChart(pollID);
+            });
         });
         
         $scope.updateChart = (id) => {
@@ -212,26 +208,18 @@
     
     // create the controller and inject Angular's $scope
     votingApp.controller('headerController', ['$scope', '$resource', '$route', 'pollService', function ($scope, $resource, $route, pollService) {
+        var apiUrl = '/api/:id';
         pollService.isAuth().then(function(result) {
             $scope.isAuthenticated = result.isAuthenticated;
+            $(document).ready(() => {
+                console.log($scope.isAuthenticated);
+                if($scope.isAuthenticated){
+                    $.get(apiUrl, (result) => {
+                        $('#display-name').text(result.google.displayName);
+                    });
+                }
+            });
         });
-        
-        var profileId = document.querySelector('#google-id') || null;
-        var profileUsername = document.querySelector('#google-username') || null;
-        var googleName = document.querySelector('#google-name');
-        var displayName = document.querySelector('#display-name');
-        var apiUrl = appUrl + '/api/:id';
-
-        function updateHtmlElement(data, element, userProperty) {
-            element.innerHTML = data[userProperty];
-        }
-
-        ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', apiUrl, function(data) {
-            var userObject = JSON.parse(data);
-            if (displayName !== null) {
-                updateHtmlElement(userObject.google, displayName, 'displayName');
-            }
-        }));
     }]);
     
     // create the controller and inject Angular's $scope
