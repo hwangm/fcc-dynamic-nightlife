@@ -212,7 +212,6 @@
         pollService.isAuth().then(function(result) {
             $scope.isAuthenticated = result.isAuthenticated;
             $(document).ready(() => {
-                console.log($scope.isAuthenticated);
                 if($scope.isAuthenticated){
                     $.get(apiUrl, (result) => {
                         $('#display-name').text(result.google.displayName);
