@@ -12,16 +12,16 @@
                 </input>
               </div>
               <div class="option-submit-button">
-                <button type="button" id="{{'chooseOption_'+poll.pollID}}" class="btn btn-info" ng-click="submitOption(poll.pollID)">Submit</button>
+                <button type="button" id="{{'chooseOption_'+poll.pollID}}" class="btn btn-info btn-create" ng-click="submitOption(poll.pollID)">Submit</button>
                 <div id="{{'optionResultPoll_'+poll.pollID}}" class="option-submit-results"></div>
               </div>
             </div>
             <div class="option-container" ng-show="isAuthenticated">
               <div class="option-add-button">
                 <form name="newOptionForm" ng-submit="newOptionForm.$valid && addSaveNewOption(poll.pollID)">
-                  <label for="{{'newOption_'+poll.pollID}}">
+                  <label for="{{'newOption_'+poll.pollID}}" >
                     Or add a new option: <br />
-                    <input type="text" id="{{'newOption_'+poll.pollID}}" name="newOptionName" ng-model="newOptionName" placeholder="new option" required></input>
+                    <input type="text" id="{{'newOption_'+poll.pollID}}" name="newOptionName" ng-model="newOptionName" required></input>
                     <span ng-show="newOptionForm.newOptionName.$error.required && newOptionForm.newOptionName.$touched">Option Name Required<br></span>
                   </label>
                   <div>

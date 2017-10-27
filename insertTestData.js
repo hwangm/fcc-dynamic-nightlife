@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var session = require('express-session');
 var Poll = require('./app/models/polls.js');
+var User = require('./app/models/users.js');
 
 var app = express();
 require('dotenv').load();
@@ -109,8 +110,12 @@ Poll.remove({ "metadata.createDate": "2017-10-01T10:35:24-08:00" }, function(err
 		});
 	});
 	
-	
-	
+	User //resets Matthew Hwang user so that I can vote again on polls
+		.findOneAndUpdate({"google.displayName": "Matthew Hwang"}, {"pollsVotedOn": []})
+		.exec((err, doc) => {
+			if(err) console.log(err);
+			console.log(doc);
+		});
 });
 
 

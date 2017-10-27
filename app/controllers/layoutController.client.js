@@ -245,6 +245,9 @@
                 var deferred = $q.defer();
                 pollService.getPolls().then(function(results) {
                         $scope.polls = results;
+                        if($scope.polls.length == 0){
+                            $scope.noPolls = true;
+                        }
                         _.each($scope.polls, function(el) {
                             el.metadata.createDateLocal = moment(el.metadata.createDate).format('MMMM DD, YYYY');
                         })
@@ -288,10 +291,22 @@
                     }
                     else {
                         $('#pollResult').text('New poll saved successfully. Check it out!');
+                        $scope.resetNewPollForm();
                         $scope.getPolls();
                     }
                 });
 
+            };
+            
+            $scope.resetNewPollForm = () => {
+                $scope.option = [];
+                $scope.options = [1, 2, 3];
+                $scope.form.$setPristine();
+                $scope.form.$setUntouched();
+                $scope.newPollName = "";
+                $scope.newPollDesc = "";
+                $('input[name*="option"]').val("");
+                
             };
     
             $scope.showForm = () => {
@@ -315,6 +330,9 @@
             $scope.getPolls = function() {
                 pollService.getPolls().then(function(results) {
                     $scope.polls = results;
+                    if($scope.polls.length == 0){
+                        $scope.noPolls = true;
+                    }
                     _.each($scope.polls, function(el) {
                             el.metadata.createDateLocal = moment(el.metadata.createDate).format('MMMM DD, YYYY');
                     });
