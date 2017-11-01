@@ -114,7 +114,6 @@ Poll.remove({ "metadata.createDate": "2017-10-01T10:35:24-08:00" }, function(err
 		.findOneAndUpdate({"google.displayName": "Matthew Hwang"}, {"pollsVotedOn": []})
 		.exec((err, doc) => {
 			if(err) console.log(err);
-			console.log(doc);
 		});
 });
 
