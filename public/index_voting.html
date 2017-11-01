@@ -10,14 +10,16 @@
     </div>
     <div class="poll-container w-75 mx-auto">
       <div class="row">
-        <div class="poll-card card col-md-6" ng-repeat="x in polls">
-          <div class="row">
-            <div class="col-md-12">
-              <span class="h4">{{x.metadata.name}}</span>
-              <span class="subtext">{{x.metadata.description}}</span>
-            </div>
-            <div class="col-md-12 d-flex flex-row justify-content-between align-items-center">{{x.metadata.createDateLocal}}
-              <button type="button" class="btn btn-info btn-view" ng-click="showPollDetails(x.pollID)">View Poll Details</button>
+        <div class="col-md-6" ng-repeat="x in polls">
+          <div class="poll-card card">
+            <div class="row">
+              <div class="col-md-12">
+                <span class="h4">{{x.metadata.name}}</span>
+                <span class="subtext">{{x.metadata.description}}</span>
+              </div>
+              <div class="col-md-12 d-flex flex-row justify-content-between align-items-center">{{x.metadata.createDateLocal}}
+                <button type="button" class="btn btn-info btn-view" ng-click="showPollDetails(x.pollID)">View Poll Details</button>
+              </div>
             </div>
           </div>
         </div>
@@ -41,7 +43,6 @@
         <div ng-repeat="x in options">
           <label for="{{ 'option' + x }}">Option {{x}}</label>
           <input type="text" name="{{'option' + x}}" id="{{'option' + x}}" placeholder="Poll option" ng-model="hello" ng-change="updateOptions(x)" />
-          <!-- ng-click="removeOption(x)" remove option -->
         </div>
 
       </div>
