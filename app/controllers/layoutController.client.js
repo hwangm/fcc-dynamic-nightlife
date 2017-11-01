@@ -99,7 +99,6 @@
         $scope.addSaveNewOption = (id) => {
             var newOptionText = $('#newOption_' + id).val();
             var pollData = $scope.poll;
-            console.log((_.contains(_.pluck(pollData.options, 'name'), newOptionText)));
             if(!(_.contains(_.pluck(pollData.options, 'name'), newOptionText))){
                 pollData.options.push({
                     'name': newOptionText,
@@ -115,11 +114,9 @@
             }
             else {
                 _.map(pollData.options, (val) => {
-                    console.log(val.count);
                     if(val.name == newOptionText) { return { name: val.name, count: val.count++ }; }
                     else return val;
                 });
-                console.log(pollData.options);
                 pollService.updatePollCount(id, pollData).then(function(results) {
                     if(results.votedAlready == true){
                         pollData.options.splice(_.indexOf(pollData.options, newOptionText), 1);

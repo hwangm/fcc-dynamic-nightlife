@@ -41,6 +41,26 @@ function votedOnAlreadyByIP(ipAddr, pollID, callback){
 		});
 };
 
+function deletePollReferencesInUser(pollID) {
+	//when a user deletes a poll, all the people who voted on that poll should have that reference removed 
+	//because the poll ID is reused 
+	//find all users with that pollID in pollsVotedOn key
+	//loop through array of users and remove that pollID from pollsVotedOn
+	Users
+		.find({ 'pollsVotedOn': pollID.toString() })
+		.exec((err, result) => {
+			if (err) console.log(err);
+			for (var user of result) {
+				user.pollsVotedOn.splice(user.pollsVotedOn.indexOf(pollID.toString()), 1);
+				Users
+					.findByIdAndUpdate(user._id, { pollsVotedOn: user.pollsVotedOn })
+					.exec((err, result) => {
+						if (err) console.log(err);
+					});
+			}
+		});
+};
+
 function PollHandler () {
 	
 	this.getPolls = function (req, res) {
@@ -105,6 +125,7 @@ function PollHandler () {
 				if(err) { response.json(err); }
 				response.json(data);
 			});
+		deletePollReferencesInUser(req.params.id);
 	};
 	
 	this.updatePoll = function (req, response) {
