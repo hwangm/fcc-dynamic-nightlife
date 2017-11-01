@@ -354,7 +354,7 @@
     
             $scope.getPolls();
             
-            var user = $resource('/api/11111');
+            var user = $resource('/api/user');
     
             $scope.getUser = function() {
                 user.get((results) => {

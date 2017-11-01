@@ -59,7 +59,7 @@ module.exports = function (app, passport) {
 			else res.json({ isAuthenticated: false });
 		})
 
-	app.route('/api/:id')
+	app.route('/api/user')
 		.get(isLoggedIn, function (req, res) {
 			res.json(req.user);
 		});
