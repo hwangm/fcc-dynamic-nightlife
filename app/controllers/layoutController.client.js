@@ -99,17 +99,38 @@
         $scope.addSaveNewOption = (id) => {
             var newOptionText = $('#newOption_' + id).val();
             var pollData = $scope.poll;
-            pollData.options.push({
-                'name': newOptionText,
-                'count': 1
-            });
-            pollService.updatePollCount(id, pollData).then(function(results) {
-                if(results.votedAlready == true){
-                    pollData.options.splice(_.indexOf(pollData.options, newOptionText), 1);
-                    alert('You already voted on this poll and cannot add a new option.');
-                }
-                else $scope.updateChart(id);
-            });
+            console.log((_.contains(_.pluck(pollData.options, 'name'), newOptionText)));
+            if(!(_.contains(_.pluck(pollData.options, 'name'), newOptionText))){
+                pollData.options.push({
+                    'name': newOptionText,
+                    'count': 1
+                });
+                pollService.updatePollCount(id, pollData).then(function(results) {
+                    if(results.votedAlready == true){
+                        pollData.options.splice(_.indexOf(pollData.options, newOptionText), 1);
+                        alert('You already voted on this poll and cannot add a new option.');
+                    }
+                    else $scope.updateChart(id);
+                });
+            }
+            else {
+                _.map(pollData.options, (val) => {
+                    console.log(val.count);
+                    if(val.name == newOptionText) { return { name: val.name, count: val.count++ }; }
+                    else return val;
+                });
+                console.log(pollData.options);
+                pollService.updatePollCount(id, pollData).then(function(results) {
+                    if(results.votedAlready == true){
+                        pollData.options.splice(_.indexOf(pollData.options, newOptionText), 1);
+                        alert('You already voted on this poll and cannot add a new option.');
+                    }
+                    else {
+                        alert('The option name already exists so a vote was added for that option.');
+                        $scope.updateChart(id);
+                    }
+                });
+            }
         }
         
         $scope.initChart = (id) => {
@@ -127,8 +148,14 @@
                 let color = 'rgb(' + r + ', ' + g + ', ' + b + ')';
                 backgroundColors.push(color);
             }
-            var ctx = document.getElementById('pollChart' + id).getContext('2d');
+            console.log(typeof $scope['chart'+id]);
+            if(typeof $scope['chart' + id] !== "undefined") {
+    			$scope['chart' + id].destroy();
+    			$('#pollChart'+id).remove();
+    			$('#pollChart'+id+'Container').append('<canvas id="pollChart'+id+'" width="300px" height="300px"></canvas>')
+    		}
             $timeout(() => {
+                var ctx = document.getElementById('pollChart' + id).getContext('2d');
                 $scope['chart' + id] = new Chart(ctx, {
                     // The type of chart we want to create
                     type: 'pie',
@@ -175,7 +202,7 @@
                 $scope['chart' + pollID].data.labels = pollLabels;
                 $scope['chart' + pollID].data.datasets[0].backgroundColor = backgroundColors;
                 $timeout(function() {
-                    $scope['chart'+pollID].update();
+                    $scope.initChart(pollID);
                 }, 200);
             });
         
@@ -265,7 +292,7 @@
 
             $scope.addNewPoll = () => {
                 $scope.newPollSubmitted = true;
-                var optionObject = _.map($scope.option, (val) => { return { 'name': val, 'count': 0 }; });
+                var optionObject = _.map(_.uniq($scope.option), (val) => { return { 'name': val, 'count': 0 }; });
                 var pollDataObject = {
                     'newPollName': $scope.newPollName,
                     'newPollDesc': $scope.newPollDesc,
@@ -311,7 +338,7 @@
 
         }]);
     votingApp
-        .controller('profileController', ['$scope', '$resource', 'pollService', '$window', function($scope, $resource, pollService, $window) {
+        .controller('profileController', ['$scope', '$resource', 'pollService', '$window', '$location', function($scope, $resource, pollService, $window, $location) {
             var polls = $resource('/api/polls');
     
             $scope.getPolls = function() {
@@ -325,6 +352,12 @@
                     });
                     pollService.isAuth().then(function(res) {
                         $scope.isAuthenticated = res.isAuthenticated;
+                        if(res.isAuthenticated == false){
+                            $location.path('/login');
+                        }
+                        else {
+                            $scope.getUser();
+                        }
                     });
                 });
             };
@@ -358,5 +391,5 @@
                 });
             };
     
-            $scope.getUser();
+            
         }]);
