@@ -63,15 +63,6 @@ module.exports = function (app, passport) {
 		.get(isLoggedIn, function (req, res) {
 			res.json(req.user);
 		});
-	
-	//add twitter auth option
-	app.route('/auth/twitter')
-		.get(passport.authenticate('twitter'));
-	app.route('/auth/twitter/callback')
-		.get(passport.authenticate('twitter', {
-			successRedirect: '/',
-			failureRedirect: '/login'
-		}));
 		
 	//add google auth option
 	app.route('/auth/google')
@@ -81,14 +72,5 @@ module.exports = function (app, passport) {
 			successRedirect: '/',
 			failureRedirect: '/login'
 		}));
-		
-	app.route('/auth/github')
-		.get(passport.authenticate('github'));
-
-	app.route('/auth/github/callback')
-		.get(passport.authenticate('github', {
-			successRedirect: '/',
-			failureRedirect: '/login'
-		}));
-
+	
 };
