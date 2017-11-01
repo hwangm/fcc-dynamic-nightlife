@@ -8,7 +8,7 @@
             // route for the home page
             .when('/', {
                 templateUrl : 'public/index_voting.html',
-                controller  : 'mainController'
+                controller  : 'indexVotingController'
             })
 
             // route for the about page
@@ -73,11 +73,6 @@
             
     });
 
-    // create the controller and inject Angular's $scope
-    votingApp.controller('mainController', ['$scope', '$resource', '$route', function ($scope, $resource, $route) {
-        
-    }]);
-    
     // create the controller and inject Angular's $scope
     votingApp.controller('pollController', ['$scope', '$resource', '$routeParams', 'pollService', '$q', '$timeout', function ($scope, $resource, $routeParams, pollService, $q, $timeout) {
         var pollID = $routeParams.id;
@@ -145,7 +140,6 @@
                 let color = 'rgb(' + r + ', ' + g + ', ' + b + ')';
                 backgroundColors.push(color);
             }
-            console.log(typeof $scope['chart'+id]);
             if(typeof $scope['chart' + id] !== "undefined") {
     			$scope['chart' + id].destroy();
     			$('#pollChart'+id).remove();
@@ -182,25 +176,7 @@
         $scope.updateChart = (id) => {
         
             $scope.getPoll().then(function(result) {
-                var pollLabels = [],
-                    pollDataPoints = [],
-                    backgroundColors = [];
-                
-                for (var x of $scope.poll.options) { //populate the labels and datapoints
-                    pollLabels.push(x.name);
-                    pollDataPoints.push(x.count);
-                    let r = Math.floor(Math.random() * 200);
-                    let g = Math.floor(Math.random() * 200);
-                    let b = Math.floor(Math.random() * 200);
-                    let color = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-                    backgroundColors.push(color);
-                }
-                $scope['chart' + pollID].data.datasets[0].data = pollDataPoints;
-                $scope['chart' + pollID].data.labels = pollLabels;
-                $scope['chart' + pollID].data.datasets[0].backgroundColor = backgroundColors;
-                $timeout(function() {
-                    $scope.initChart(pollID);
-                }, 200);
+                $scope.initChart(pollID);
             });
         
         }
