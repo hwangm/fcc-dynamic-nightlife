@@ -34,5 +34,8 @@
     "passport-github": "^1.0.0",
     "passport-google-oauth": "^1.0.0",
     "passport-twitter": "^1.0.4"
+  },
+  "devDependencies": {
+    "@angular/cli": "^1.5.0"
   }
 }

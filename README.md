@@ -1,22 +1,18 @@
-# FreeCodeCamp Voting App by Matt Hwang
-- As an authenticated user, I can keep my polls and come back later to access them.  
+# FreeCodeCamp Nightlife Coordination App by Matt Hwang  
+
+- User Story: As an unauthenticated user, I can view all bars in my area.  
   
-- As an authenticated user, I can share my polls with my friends.  
+- User Story: As an authenticated user, I can add myself to a bar to indicate I am going there tonight.  
   
-- As an authenticated user, I can see the aggregate results of my polls.  
+- User Story: As an authenticated user, I can remove myself from a bar if I no longer want to go there.  
+    
+- User Story: As an unauthenticated user, when I login I should not have to search again.  
   
-- As an authenticated user, I can delete polls that I decide I don't want anymore.  
-  
-- As an authenticated user, I can create a poll with any number of possible items.  
-  
-- As an unauthenticated or authenticated user, I can see and vote on everyone's polls.  
-  
-- As an unauthenticated or authenticated user, I can see the results of polls in chart form. (This could be implemented using Chart.js or Google Charts.)  
-  
-- As an authenticated user, if I don't like the options on a poll, I can create a new option.  
+Hint: Try using the Yelp API to find venues in the cities your users search for. If you use Yelp's API, be sure to mention so in your app.  
   
 ## Technologies
-- Angular 1
+- Yelp API
+- Angular 4
 - Bootstrap 4
 - Node.js + Express
 - MongoDB + Mongoose
