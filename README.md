@@ -15,6 +15,12 @@
   
 - As an authenticated user, if I don't like the options on a poll, I can create a new option.  
   
+## Technologies
+- Angular 1
+- Bootstrap 4
+- Node.js + Express
+- MongoDB + Mongoose
+- Passport
 
 ## License
 
