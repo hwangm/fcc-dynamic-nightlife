@@ -12,8 +12,8 @@ Hint: Try using the Yelp API to find venues in the cities your users search for.
   
 ## Technologies
 - Yelp API
-- Angular 4
-- Bootstrap 4
+- Angular 5.0.0
+- Material Design 5.0.0-rc0
 - Node.js + Express
 - MongoDB + Mongoose
 - Passport
