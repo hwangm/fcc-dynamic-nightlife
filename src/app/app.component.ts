@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { SearchComponent } from './search/search.component';
+import { MatToolbarModule } from '@angular/material';
 
 @Component({
   selector: 'app-root',

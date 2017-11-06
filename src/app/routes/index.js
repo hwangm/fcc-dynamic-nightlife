@@ -1,7 +1,7 @@
 'use strict';
 
 var path = process.cwd();
-var PollHandler = require(path + '/app/controllers/pollHandler.server.js');
+var YelpHandler = require(path + '/src/app/controllers/yelpHandler.server.js');
 
 module.exports = function (app, passport) {
 
@@ -13,11 +13,10 @@ module.exports = function (app, passport) {
 		}
 	}
 
-	var pollHandler = new PollHandler();
-
+	var yelpHandler = new YelpHandler();
 	app.route('/')
 		.get(function (req, res) {
-			res.sendFile(path + '/public/layout.html');
+			res.sendFile(path + '/dist/index.html');
 		});
 
 	app.route('/login')
@@ -36,20 +35,8 @@ module.exports = function (app, passport) {
 			res.sendFile(path + '/public/profile_voting.html');
 		});
 	
-	app.route('/api/polls')
-		.get(isLoggedIn, pollHandler.getPolls);
-		
-	app.route('/api/polls/:id')
-		.get(pollHandler.getOnePoll)
-		.post(isLoggedIn, pollHandler.addPoll)
-		.put(pollHandler.updatePoll)
-		.delete(isLoggedIn, pollHandler.removePoll);
-		
-	app.route('/api/allPolls')
-		.get(pollHandler.getAllPolls);
-		
-	app.route('/api/addNewPoll')
-		.post(pollHandler.addPoll);
+	app.route('/api/yelp')
+		.get(yelpHandler.getBars);
 		
 	app.route('/api/isAuth')
 		.get((req, res) => {

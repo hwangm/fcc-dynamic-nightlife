@@ -1,0 +1,15 @@
+<div style="text-align:center">
+  <h1>
+    Welcome to {{title}}!
+  </h1>
+</div>
+<div>
+  <form class="form" id="searchForm">
+    <p>Find bars in your area: </p>
+    <mat-form-field class="location-input">
+      <input matInput [(ngModel)]="location" placeholder="Your location" name="location" id="location" required />
+      <mat-hint align="start">City, State or ZIP Code</mat-hint>
+    </mat-form-field>
+    <button mat-raised-button type="button" (click)="submitLocation()" color="primary">Search for bars</button>
+  </form>
+</div>

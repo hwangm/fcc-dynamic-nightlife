@@ -15,11 +15,10 @@ module.exports = function (passport) {
 		});
 	});
 	
-	
 	passport.use(new GoogleStrategy({
-		clientID: configAuth.googleAuth.consumerKey,
-		clientSecret: configAuth.googleAuth.consumerSecret,
-		callbackURL: configAuth.googleAuth.callbackURL
+		clientID: process.env.GOOGLE_KEY,
+		clientSecret: process.env.GOOGLE_SECRET,
+		callbackURL: process.env.APP_URL + 'auth/google/callback'
 	}, function(token, tokenSecret, profile, cb) {
 		User.findOne({ 'google.id' : profile.id }, function (err, user) {
 			if (err) {

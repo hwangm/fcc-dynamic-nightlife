@@ -1,0 +1,12 @@
+#searchForm {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+p{
+    margin-right: 10px;
+}
+.location-input {
+    margin-right: 10px;
+}
