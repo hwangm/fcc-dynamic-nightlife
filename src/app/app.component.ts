@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SearchComponent } from './search/search.component';
+import { ResultComponent } from './result/result.component';
 import { MatToolbarModule } from '@angular/material';
 
 @Component({

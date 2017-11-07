@@ -13,3 +13,7 @@
     <button mat-raised-button type="button" (click)="submitLocation()" color="primary">Search for bars</button>
   </form>
 </div>
+<div class="error" *ngIf="showError">
+  Error encountered when searching for bars: {{error}}
+</div>
+<app-result [data]="yelpData" *ngIf="resultsFound"></app-result>

@@ -1,0 +1,8 @@
+<mat-card *ngFor="let bar of bars.businesses">
+    <mat-card-title>{{bar.name}}</mat-card-title>
+    <mat-card-subtitle>{{bar.location.address1 + ', ' + bar.location.city + ', ' + bar.location.state + ' ' + bar.location.zip_code}}</mat-card-subtitle>
+    <mat-card-content>
+        <span>Wow, this place has {{bar.review_count}} reviews!</span>
+        <span>It's got a {{bar.rating}}-star rating on Yelp.</span>
+    </mat-card-content>
+</mat-card>

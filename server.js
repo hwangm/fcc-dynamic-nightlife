@@ -1,4 +1,5 @@
 'use strict';
+var dotenv = require('dotenv').config();
 
 var express = require('express');
 var routes = require('./src/app/routes/index.js');
@@ -8,7 +9,7 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 
 var app = express();
-require('dotenv').config();
+
 require('./src/app/config/passport')(passport);
 
 mongoose.connect(process.env.MONGO_URI, {
