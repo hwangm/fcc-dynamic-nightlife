@@ -45,11 +45,16 @@ module.exports = function (app, passport) {
 			}
 			else res.json({ isAuthenticated: false });
 		})
+	
+	app.route('/api/user/isGoing')
+		.get(isLoggedIn, yelpHandler.isGoing);
 
 	app.route('/api/user')
 		.get(isLoggedIn, function (req, res) {
 			res.json(req.user);
-		});
+		})
+		.post(isLoggedIn, yelpHandler.saveBarChoice)
+		.delete(isLoggedIn, yelpHandler.removeBarChoice);
 		
 	//add google auth option
 	app.route('/auth/google')

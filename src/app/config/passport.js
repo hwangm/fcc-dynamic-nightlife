@@ -33,7 +33,6 @@ module.exports = function (passport) {
 					newUser.google.id = profile.id;
 					newUser.google.name = profile.name;
 					newUser.google.displayName = profile.displayName;
-					newUser.nbrClicks.clicks = 0;
 
 					newUser.save(function (err) {
 						if (err) {

@@ -1,7 +1,9 @@
 <mat-toolbar color="primary" class="app-toolbar">
   <span>Hwangstas run this town</span>
   <span class="spacer"></span>
-  <span>Login with <i class="fa fa-google" aria-hidden="true"></i></span>
+  <span *ngIf="!isAuthenticated"><a mat-icon-button href='/auth/google'><i class="fa fa-google" aria-hidden="true"></i></a></span>
+  <span *ngIf="isAuthenticated">Welcome {{name}}! 
+  <a href='/logout'>Logout</a></span>
 </mat-toolbar>
 <app-search [title]="title"></app-search>
 

@@ -6,3 +6,8 @@ body {
     margin: 0 !important;
     font-family: Roboto, sans-serif;
 }
+
+.results-list{
+    width: 75%;
+    margin: auto;
+}

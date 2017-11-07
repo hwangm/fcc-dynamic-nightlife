@@ -20,6 +20,8 @@ export class SearchComponent implements OnInit {
   constructor(private http: HttpClient) { }
   
   submitLocation() {
+    this.yelpData={};
+    this.resultsFound=false;
     const params = new HttpParams().set('address', this.location);
     this.http
         .get('/api/yelp', {params})
