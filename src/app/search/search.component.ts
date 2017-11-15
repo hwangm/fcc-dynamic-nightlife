@@ -30,6 +30,7 @@ export class SearchComponent implements OnInit {
           if(data['error'] == undefined) {
             this.resultsFound = true;
             this.yelpData = data;
+            this.showError = false;
           }
           else{
             this.error = data['error'];

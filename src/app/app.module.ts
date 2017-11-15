@@ -5,6 +5,7 @@ import { MatToolbarModule, MatInputModule, MatButtonModule, MatCardModule, MatGr
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
+import { AppRouterModule } from './app-router/app-router';
 import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
 import { ResultComponent } from './result/result.component';
@@ -18,6 +19,7 @@ import { UserService } from './user.service';
     ResultComponent
   ],
   imports: [
+    AppRouterModule,
     FormsModule,
     BrowserModule,
     HttpClientModule,
@@ -26,7 +28,7 @@ import { UserService } from './user.service';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatGridListModule
+    MatGridListModule,
   ],
   providers: [AuthService, UserService],
   bootstrap: [AppComponent]

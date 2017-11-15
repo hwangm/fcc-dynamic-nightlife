@@ -34,4 +34,12 @@ export class UserService {
                .then(response => response)
                .catch(this.handleError);
   }
+  countAttendees(barId: string): Promise<any> {
+    const params = new HttpParams().set('barId', barId);
+    return this.http  
+               .get(this.apiUrl+'/countAttendees', { params })
+               .toPromise()
+               .then(response => response)
+               .catch(this.handleError);
+  }
 }

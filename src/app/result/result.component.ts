@@ -1,5 +1,5 @@
 import { Component, OnChanges, Input } from '@angular/core';
-import { MatCardModule, MatButtonModule, MatGridListModule } from '@angular/material';
+import { MatCardModule, MatButtonModule } from '@angular/material';
 import { AuthService } from '../auth.service';
 import { UserService } from '../user.service';
 

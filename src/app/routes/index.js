@@ -48,7 +48,10 @@ module.exports = function (app, passport) {
 	
 	app.route('/api/user/isGoing')
 		.get(isLoggedIn, yelpHandler.isGoing);
-
+	
+	app.route('/api/user/countAttendees')
+		.get(yelpHandler.countAttendees);
+		
 	app.route('/api/user')
 		.get(isLoggedIn, function (req, res) {
 			res.json(req.user);

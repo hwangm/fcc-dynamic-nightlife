@@ -64,6 +64,16 @@ function YelpHandler () {
 				}
 			});
 	}
+	this.countAttendees = (req, res) => {
+		user
+			.find({'barsAttending': req.params.barId})
+			.exec((err, data) => {
+				if (err) { res.json({'error': err}); }
+				else {
+					res.json({'count': data.length});
+				}
+			})
+	}
 }
 
 module.exports = YelpHandler;

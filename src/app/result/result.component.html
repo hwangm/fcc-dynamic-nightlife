@@ -1,7 +1,10 @@
 <div class="results-list">
-    <mat-grid-list cols="2" rowHeight="200px" gutterSize="10px">
-        <mat-grid-tile colspan="1" rowspan="1" *ngFor="let bar of bars.businesses">
-            <mat-card id="{{bar.id}}">
+    <mat-card id="{{bar.id}}" *ngFor="let bar of bars.businesses">
+        <div class="card-container">
+            <div class="card-img">
+                <img mat-card-image src="{{bar.image_url}}" />
+            </div>
+            <div class="card-content">
                 <mat-card-title>{{bar.name}}</mat-card-title>
                 <mat-card-subtitle>{{bar.location.address1 + ', ' + bar.location.city + ', ' + bar.location.state + ' ' + bar.location.zip_code}}</mat-card-subtitle>
                 <mat-card-content>
@@ -12,9 +15,9 @@
                     <button mat-raised-button color="primary" type="button" (click)="markAsGoing(bar.id)" *ngIf="isAuthenticated">Mark as going</button>
                     <button mat-raised-button color="warn" type="button" (click)="unmarkAsGoing()" *ngIf="isAuthenticated">I'm not going anymore</button>
                 </mat-card-actions>
-            </mat-card>
-        </mat-grid-tile>
-    </mat-grid-list>
+            </div>
+        </div>
+    </mat-card>
 </div>
 
 

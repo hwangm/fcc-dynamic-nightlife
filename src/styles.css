@@ -10,4 +10,27 @@ body {
 .results-list{
     width: 75%;
     margin: auto;
+    margin-top: 20px;
+}
+.card-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.card-img{
+    flex: 0 1 auto;
+    width: 300px;
+    height: 300px;
+}
+.card-content{
+    flex: 3 1 auto;
+    margin-left: 50px;
+}
+img{
+    max-height: 100%;
+    width: auto;
+}
+.mat-card{
+    margin: 30px 20px;
 }
